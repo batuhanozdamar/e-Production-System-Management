@@ -1,0 +1,46 @@
+<div class="login-page">
+  <div class="content">
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form" fxFlex>
+            <div class="text-center">
+                <h4>E-Production System Management</h4>
+                <h1 class="app-name">Sign In</h1>
+            </div>
+
+            <!-- Username -->
+            <div fxFlex  fxlayout="row" fxlayout.lt-md="column">
+                <div fxFlexFill>
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="Email" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                    </mat-form-field>
+                </div>
+            </div>
+            <!-- password -->
+            <div fxFlex  fxLayout="row" fxLayout.lt-md="column">
+                <div fxFlexFill>
+                    <mat-form-field class="w-100">
+                        <input matInput type="password" placeholder="Password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                    </mat-form-field>
+                </div>
+            </div>
+            <!-- remember me & forget password-->
+            <div fxFlex  fxLayout="row" fxLayout.lt-md="column" style="margin: 20px 0 30px 0">
+                <div fxFlex>
+                    <mat-checkbox color="primary">Remember Me</mat-checkbox>
+                </div>
+                <div fxFlex  fxLayoutAlign="end">
+                    <a href="/register">Click for Registration</a>
+                </div>
+            </div>
+            <!-- Login button -->
+            <div fxFlex  fxLayout="row" fxLayout.lt-md="column">
+                <div fxFlexFill>
+                    <button mat-raised-button color="primary" class="w-100" type="submit" (click)="onLogin()">Login</button>
+                </div>
+            </div>
+            <br>
+            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+        </form>
+    </div>
+
+</div>

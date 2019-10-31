@@ -1,0 +1,69 @@
+<div class="login-page">
+  <div class="content">
+    <form [formGroup]="registerForm" (ngSubmit)="register()" fxFlex>
+      <div class="text-center">
+        <h4>E-Production System Management</h4>
+        <h1 class="app-name">Registration</h1>
+      </div>
+
+      <!-- Username -->
+      <div fxFlex  fxlayout="row" fxlayout.lt-md="column">
+        <div fxFlexFill>
+          <mat-form-field class="w-100">
+            <input matInput type="text" placeholder="User Name" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- password -->
+      <div fxFlex  fxLayout="row" fxLayout.lt-md="column">
+        <div fxFlexFill>
+          <mat-form-field class="w-100">
+            <input matInput type="password" placeholder="Password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Name Surname -->
+      <div fxFlex  fxlayout="row" fxlayout.lt-md="column">
+        <div fxFlexFill>
+          <mat-form-field class="w-100">
+            <input matInput type="text" placeholder="Name Surname" formControlName="nameSurname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nameSurname.errors }">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- E-mail -->
+      <div fxFlex  fxLayout="row" fxLayout.lt-md="column">
+        <div fxFlexFill>
+          <mat-form-field class="w-100">
+            <input matInput type="email" placeholder="E-Mail" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+          </mat-form-field>
+        </div>
+      </div>
+
+<!--
+       remember me & forget password
+      <div fxFlex  fxLayout="row" fxLayout.lt-md="column" style="margin: 20px 0 30px 0">
+        <div fxFlex>
+          <mat-checkbox color="primary">Remember Me</mat-checkbox>
+        </div>
+        <div fxFlex  fxLayoutAlign="end">
+          <a href="javascript:void(0)">Forget Password</a>
+        </div>
+      </div>-->
+
+      <!-- Registration button -->
+      <div fxFlex  fxLayout="row" fxLayout.lt-md="column">
+        <div fxFlexFill>
+          <button mat-raised-button color="primary" class="w-100" type="submit" (click)="register()" >Register</button>
+        </div>
+      </div>
+      <br>
+      <div><button mat-raised-button color="primary" class="w-100" [routerLink]="['/login']" >Login Page</button></div>
+      <br>
+      <div *ngIf="error" class="alert alert-danger" text-align="center">{{error}}</div>
+    </form>
+  </div>
+
+</div>

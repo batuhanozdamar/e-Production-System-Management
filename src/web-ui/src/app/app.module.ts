@@ -28,6 +28,10 @@ import {RegistrationModule} from "./registration/registration.module";
 import {RegistrationComponent} from "./registration/registration.component";
 import {LoginModule} from "./login/login.module";
 import {UserService} from "./shared/services/user.service";
+import {ChartsModule} from "ng2-charts";
+import { ConfirmationComponent } from './shared/confirmation/confirmation.component';
+
+
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
     /* for development
@@ -40,7 +44,7 @@ export const createTranslateLoader = (http: HttpClient) => {
 };
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, ConfirmationComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -60,7 +64,8 @@ export const createTranslateLoader = (http: HttpClient) => {
             }
         }),
         MatFormFieldModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        ChartsModule
     ],
     providers: [ApiService,AuthGuard,AuthenticationService, RegistrationComponent,UserService,
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

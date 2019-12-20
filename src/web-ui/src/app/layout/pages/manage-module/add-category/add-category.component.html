@@ -1,0 +1,5 @@
+<div><h2>Add New Category</h2></div>
+<br>
+<div>
+  <ng2-smart-table [settings]="settings" [source]="data" (createConfirm)="addRecord($event)" (deleteConfirm)="deleteRecord($event)"></ng2-smart-table>
+</div>

@@ -22,4 +22,24 @@ public final class ApiPaths {
         public static final String CTRL = BASE_PATH + "/productAll";
     }
 
+    public static final class CategoryCtrl {
+        public static final String CTRL = BASE_PATH + "/category";
+    }
+
+    public static final class CompanyProductCtrl {
+        public static final String CTRL = BASE_PATH + "/companyProduct";
+    }
+
+    public static final class CompanyCtrl {
+        public static final String CTRL = BASE_PATH + "/company";
+    }
+
+    public static final class OfferStatusCtrl {
+        public static final String CTRL = BASE_PATH + "/offerStatus";
+    }
+
+    public static final class RoleCtrl {
+        public static final String CTRL = BASE_PATH + "/role";
+    }
+
 }

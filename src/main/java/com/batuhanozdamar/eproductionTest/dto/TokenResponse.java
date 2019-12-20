@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class TokenResponse {
     private String username;
     private String token;
-    private Boolean isAdmin;
+    private CompanyDto company;
+    private RoleDto role;
 }

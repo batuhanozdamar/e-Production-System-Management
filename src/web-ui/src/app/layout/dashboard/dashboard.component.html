@@ -1,28 +1,97 @@
-<div class="mb-20" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="20px">
+<div class="mb-20" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="10px">
 
     <div fxFlex>
-        <app-stat [bgClass]="'danger'" [icon]="'dashboard'" [count]="13" [label]="'New Message!'"></app-stat>
+        <app-stat [bgClass]="'danger'" [icon]="'donut_small'" [count]="0" [label]="'Display New Offers'" [routerLink]="['/dashboard/offeredItems']"></app-stat>
+
     </div>
 
     <div fxFlex>
-        <app-stat [bgClass]="'warn'" [icon]="'view_list'" [count]="12" [label]="'New task!'"></app-stat>
+        <app-stat [bgClass]="'warn'" [icon]="'delete_sweep'" [count]="0" [label]="'Display Rejected Offers'" [routerLink]="['/dashboard/rejectedItems']"></app-stat>
     </div>
 
     <div fxFlex>
-        <app-stat [bgClass]="'success'" [icon]="'shopping_cart'" [count]="124" [label]="'New Orders!'"></app-stat>
+        <app-stat [bgClass]="'success'" [icon]="'shop'" [count]="0" [label]="'Purchased Items'" [routerLink]="['/dashboard/purchased-items']"></app-stat>
     </div>
 
     <div fxFlex>
-        <app-stat [bgClass]="'info'" [icon]="'contact_support'" [count]="13" [label]="'New Reports!'"></app-stat>
+        <app-stat [bgClass]="'info'" [icon]="'offline_bolt'" [count]="0" [label]="'My Offers'" [routerLink]="['/dashboard/my-offers']"></app-stat>
     </div>
 </div>
+
 <br>
-<div><h2>Offered Items</h2></div>
-<br>
-<div>
-    <ng2-smart-table [settings]="settings" [source]="data"
-                     (createConfirm)="addRecord($event)"
-                     (deleteConfirm)="deleteRecord($event)"></ng2-smart-table>
+
+<div class="mb-20" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="10px">
+
+
+    <div><h1>Category Based Distribution</h1>
+        <div>
+            <div style="display: block">
+                <canvas baseChart width="650px"
+                        [datasets]="barChartData"
+                        [labels]="barChartLabels"
+                        [options]="barChartOptions"
+                        [legend]="barChartLegend"
+                        [chartType]="barChartType">
+                </canvas>
+            </div>
+        </div>
+    </div>
+
+<!--    <span fxFlex fxLayoutGap="10px"></span>-->
+
+    <div><h1>Product Based Distribution</h1>
+        <div>
+            <div class="chart">
+                <canvas baseChart width="770px"
+                        [data]="pieChartData"
+                        [labels]="pieChartLabels"
+                        [chartType]="pieChartType"
+                        [options]="pieChartOptions"
+                        [colors]="pieChartColors"
+                        [legend]="pieChartLegend">
+                </canvas>
+            </div>
+        </div>
+    </div>
 
 </div>
+
+<br>
+
+<div class="mb-20" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="10px">
+
+    <div><h1>Yearly Category Based Distribution</h1>
+        <div>
+            <div style="display: block">
+                <canvas baseChart width="600px"
+                        [datasets]="barChartData"
+                        [labels]="barChartLabels"
+                        [options]="barChartOptions"
+                        [legend]="barChartLegend"
+                        [chartType]="barChartType">
+                </canvas>
+            </div>
+        </div>
+    </div>
+
+    <div><h1>Yearly Product Based Distribution</h1>
+        <div>
+            <div class="chart">
+                <canvas baseChart width="750px"
+                        [data]="pieChartData"
+                        [labels]="pieChartLabels"
+                        [chartType]="pieChartType"
+                        [options]="pieChartOptions"
+                        [colors]="pieChartColors"
+                        [legend]="pieChartLegend">
+                </canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<br><br><br><br><br>
+
+
 

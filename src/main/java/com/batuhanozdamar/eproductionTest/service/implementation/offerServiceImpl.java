@@ -1,6 +1,7 @@
 package com.batuhanozdamar.eproductionTest.service.implementation;
 
-import com.batuhanozdamar.eproductionTest.dto.offerDto;
+import com.batuhanozdamar.eproductionTest.dto.OfferDto;
+import com.batuhanozdamar.eproductionTest.entity.OfferStatus;
 import com.batuhanozdamar.eproductionTest.entity.User;
 import com.batuhanozdamar.eproductionTest.entity.offer;
 import com.batuhanozdamar.eproductionTest.repository.offerRepository;
@@ -31,40 +32,45 @@ public class offerServiceImpl implements offerService {
     }
 
     @Override
-    public offerDto save(offerDto offer) {
+    public OfferDto save(OfferDto offer) {
         //    product productCheck = productRepository.getByProductCategory(product.getProductCategory());
 
         //if (productCheck != null)
         //  throw new IllegalArgumentException("Product Category Already Exist");
 
-        offer o = modelMapper.map(offer, offer.class);
+        OfferStatus o = modelMapper.map(offer, OfferStatus.class);
+        OfferStatus offerStatus = new OfferStatus();
+        offerStatus.setId(1l);
+
+        /*o.setOfferStatus(offerStatus);
         User user = userRepository.findByUsername(offer.getUsername());
-        o.setCompany(user);
+        o.setUser(user);
 
         o = offerRepository.save(o);
-        offer.setId(o.getProductId());
+        offer.setId(o.getId());*/
+
         return offer;
     }
 
     @Override
-    public offerDto getById(Long id) {
+    public OfferDto getById(Long id) {
         offer p = offerRepository.getOne(id);
-        return modelMapper.map(p, offerDto.class);
+        return modelMapper.map(p, OfferDto.class);
     }
 
 
     @Override
-    public TPage<offerDto> getAllPageable(Pageable pageable) {
+    public TPage<OfferDto> getAllPageable(Pageable pageable) {
 
         Page<offer> data = offerRepository.findAll(pageable);
-        TPage<offerDto> respnose = new TPage<offerDto>();
-        respnose.setStat(data, Arrays.asList(modelMapper.map(data.getContent(), offerDto[].class)));
+        TPage<OfferDto> respnose = new TPage<OfferDto>();
+        respnose.setStat(data, Arrays.asList(modelMapper.map(data.getContent(), OfferDto[].class)));
         return respnose;
     }
 
 
     @Override
-    public Boolean delete(offerDto offer) { return null; }
+    public Boolean delete(OfferDto offer) { return null; }
 
     public Boolean delete(Long id) {
         offerRepository.deleteById(id);
@@ -72,38 +78,40 @@ public class offerServiceImpl implements offerService {
     }
 
     @Override
-    public offerDto update(Long id, offerDto offer) {
+    public OfferDto update(Long id, OfferDto offerdto) {
         offer offerDb = offerRepository.getOne(id);
         if (offerDb == null)
             throw new IllegalArgumentException("Offer Does Not Exist ID:" + id);
 
-        //product productCheck = productRepository.getByProductCategoryAndIdNot(product.getProductCategory(), id);
+     /*   //product productCheck = productRepository.getByProductCategoryAndIdNot(product.getProductCategory(), id);
         //if (productCheck != null)
         //  throw new IllegalArgumentException("Product Category Already Exist");
 
-        offerDb.setProductCode(offer.getProductCode());
+        offerDb.setProductCode(offer.getProductCode);
         offerDb.setProductName(offer.getProductName());
         offerDb.setProductCategory(offer.getProductCategory());
         offerDb.setProductPrice(offer.getProductPrice());
         offerDb.setAskedPrice(offer.getAskedPrice());
-        //offerDb.setUserId(offer.getUsername());
+        //offerDb.setUserId(offer.getUsername());*/
 
         offerRepository.save(offerDb);
-        return modelMapper.map(offerDb, offerDto.class);
+        return modelMapper.map(offerDb, OfferDto.class);
     }
 
-    public List<offerDto> getAll() {
+    public List<OfferDto> getAll() {
         List<offer> data = offerRepository.findAll();
-        return Arrays.asList(modelMapper.map(data, offerDto[].class));
+        return Arrays.asList(modelMapper.map(data, OfferDto[].class));
     }
 
-    public List<offerDto> getAllByUsername() {
+    public List<OfferDto> getAllByUsername() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userRepository.findByUsername(currentPrincipalName);
-        List<offer> data = offerRepository.findByCompany(user);
-        return Arrays.asList(modelMapper.map(data, offerDto[].class));
+
+        //List<offer> data = offerRepository.findByCompany(user);
+
+        return null;// Arrays.asList(modelMapper.map(data, OfferDto[].class));
     }
 
 }

@@ -2,7 +2,7 @@ package com.batuhanozdamar.eproductionTest.service.implementation;
 
 import com.batuhanozdamar.eproductionTest.entity.User;
 import com.batuhanozdamar.eproductionTest.entity.product;
-import com.batuhanozdamar.eproductionTest.dto.productDto;
+import com.batuhanozdamar.eproductionTest.dto.ProductDto;
 import com.batuhanozdamar.eproductionTest.repository.productRepository;
 import com.batuhanozdamar.eproductionTest.repository.userRepository;
 import com.batuhanozdamar.eproductionTest.service.productService;
@@ -31,47 +31,50 @@ public class productServiceImpl implements productService {
     }
 
     @Override
-    public productDto save(productDto product) {
-    //    product productCheck = productRepository.getByProductCategory(product.getProductCategory());
+    public ProductDto save(ProductDto product) {
+ /*   //    product productCheck = productRepository.getByProductCategory(product.getProductCategory());
+
 
         //if (productCheck != null)
           //  throw new IllegalArgumentException("Product Category Already Exist");
+*/
+
 
         product p = modelMapper.map(product, product.class);
-        User user = userRepository.findByUsername(product.getUsername());
-        p.setCompany(user);
-
+        //User user = userRepository.findByCompany(product.getUser());
+        //p.setUser(user);
+        //p.setCompany();
         p = productRepository.save(p);
         product.setId(p.getId());
+
         return product;
     }
 
     @Override
-    public productDto getById(Long id) {
+    public ProductDto getById(Long id) {
         product p = productRepository.getOne(id);
-        return modelMapper.map(p, productDto.class);
+        return modelMapper.map(p, ProductDto.class);
     }
 
     //     düzenle
     @Override
-    public productDto getByProductCategory(String productCategory) { return null; }
+    public ProductDto getByProductCategory(String productCategory) { return null; }
 
     //     düzenle
     @Override
-    public List<productDto> getByProjectCategoryContains(String productName) { return null; }
+    public List<ProductDto> getByProjectCategoryContains(String productName) { return null; }
 
     @Override
-    public TPage<productDto> getAllPageable(Pageable pageable) {
+    public TPage<ProductDto> getAllPageable(Pageable pageable) {
 
         Page<product> data = productRepository.findAll(pageable);
-        TPage<productDto> respnose = new TPage<productDto>();
-        respnose.setStat(data, Arrays.asList(modelMapper.map(data.getContent(), productDto[].class)));
+        TPage<ProductDto> respnose = new TPage<ProductDto>();
+        respnose.setStat(data, Arrays.asList(modelMapper.map(data.getContent(), ProductDto[].class)));
         return respnose;
     }
 
-
     @Override
-    public Boolean delete(productDto product) { return null; }
+    public Boolean delete(ProductDto product) { return null; }
 
     public Boolean delete(Long id) {
         productRepository.deleteById(id);
@@ -79,36 +82,41 @@ public class productServiceImpl implements productService {
     }
 
     @Override
-    public productDto update(Long id, productDto product) {
+    public ProductDto update(Long id, ProductDto product) {
         product productDb = productRepository.getOne(id);
         if (productDb == null)
             throw new IllegalArgumentException("Product Does Not Exist ID:" + id);
 
-        //product productCheck = productRepository.getByProductCategoryAndIdNot(product.getProductCategory(), id);
+      /*  //product productCheck = productRepository.getByProductCategoryAndIdNot(product.getProductCategory(), id);
         //if (productCheck != null)
           //  throw new IllegalArgumentException("Product Category Already Exist");
 
         productDb.setProductCode(product.getProductCode());
         productDb.setProductName(product.getProductName());
         productDb.setProductCategory(product.getProductCategory());
-        productDb.setProductPrice(product.getProductPrice());
+        productDb.setProductPrice(product.getProductPrice());*/
+
+        productDb.setProductCode(product.getProductCode());
+        productDb.setProductName(product.getProductName());
+        //productDb.setCategory(product.getCategory()); //düzelt
 
         productRepository.save(productDb);
-        return modelMapper.map(productDb, productDto.class);
+        return modelMapper.map(productDb, ProductDto.class);
     }
 
-    public List<productDto> getAll() {
+    public List<ProductDto> getAll() {
         List<product> data = productRepository.findAll();
-        return Arrays.asList(modelMapper.map(data, productDto[].class));
+        return Arrays.asList(modelMapper.map(data, ProductDto[].class));
     }
 
-    public List<productDto> getAllByUsername() {
+    public List<ProductDto> getAllByUsername() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userRepository.findByUsername(currentPrincipalName);
-        List<product> data = productRepository.findByCompany(user);
-        return Arrays.asList(modelMapper.map(data, productDto[].class));
+        //List<product> data = productRepository.findByCompany(user);
+
+        return null;//Arrays.asList(modelMapper.map(data, ProductDto[].class));
     }
 
 

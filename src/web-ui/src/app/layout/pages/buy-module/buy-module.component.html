@@ -1,3 +1,48 @@
-<p>
-  buy-module works!
-</p>
+<ng2-smart-table [settings]="settings" [source]="data" (editConfirm)="addRecord($event)" (custom)="openNewOfferDialog($event)"></ng2-smart-table>
+
+
+<!--Dialog Box Content-->
+<ng-template #newOfferDialog let-modal>
+
+  <div class="modal-header">
+
+    <h4 class="modal-title" id="modal-basic-title" text-align="center">New Offer</h4>
+
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+  </div>
+
+  <div class="modal-body">
+
+    <form>
+      <div class="form-group">
+        <label for="">Product Code</label>
+        <input for="" [(ngModel)]="selectedProductDto.productCode" name="productCode"/>
+      </div>
+
+      <div class="form-group">
+        <label for="">Product Name</label>
+        <input for="" [(ngModel)]="selectedProductDto.productName" name="productName"/>
+      </div>
+
+      <div class="form-group">
+        <label for="">Your Price</label>
+        <input name="productPrice"/>
+      </div>
+
+      <div class="form-group">
+        <label for="">Your Amount</label>
+        <input name="productAmount"/>
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Send Offer</button>
+  </div>
+
+</ng-template>

@@ -1,34 +1,64 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ApiService} from "../../../shared/services/api.service";
-import {offer} from "../../../common/offer";
 import {product} from "../../../common/product";
+import {offer} from "../../../common/offer";
+import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-buy-module',
-  /*templateUrl: './buy-module.component.html',*/
+  templateUrl: './buy-module.component.html',
   styleUrls: ['./buy-module.component.scss'],
-  template: `<ng2-smart-table [settings]="settings" [source]="data" (editConfirm)="addRecord($event)"></ng2-smart-table>`
+
 })
 export class BuyModuleComponent implements OnInit {
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private modalService: NgbModal) {}
 
   data:any = [];
 
+  selectedProductDto: product;
+  
   ngOnInit() {
 
-    this.http.get<ApiService>('http://localhost:8000/api/productAll/').subscribe(
+    this.http.get<ApiService>('http://localhost:8000/api/category').subscribe(
+        options => {
+          //self.options = options;
+
+          console.log(this.settings);
+          //this.categoryList = options;
+
+          var newSetting:any = this.settings;
+          newSetting.columns.categoryTitle.editor.config.list = options;
+          this.settings = Object.assign({}, newSetting);
+          // self.settings.columns.productCategory.editor.config.list=this.options;
+          /* this.settings.columns.productCategory.editor.config.list=
+               [{value: 'Çekmece Rayları', title: 'Çekmece Rayları'},
+               {value: 'Menteşeler', title: 'Menteşeler'},
+               {value: 'Kilit Sistemleri', title: 'Kilit Sistemleri'},
+               {value: 'Boya ve Cila Ürünleri', title: 'Boya ve Cila Ürünleri'},
+               {value: 'Bağlantı Elemanları', title: 'Bağlantı Elemanları'}]
+           ;*/
+        }
+    );
+
+    this.http.get<ApiService>('http://localhost:8000/api/product').subscribe(
         data => {
+
+          var dataList = data;
+          // @ts-ignore
+          for (let product of data) {
+            product.categoryTitle = product.category.title
+          }
+
+
           this.data = data;
 
           console.log(this.data);
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
-
-
             console.log("Client-side error occured.");
           } else {
             console.log("Server-side error occured.");
@@ -37,26 +67,24 @@ export class BuyModuleComponent implements OnInit {
   }
 
   settings = {
-    edit: {
-      confirmSave:true,
-      editButtonContent: "Send Offer"
+    actions: {
+      columnTitle: 'Send Offer',
+      add: false,
+      edit: false,
+      delete: false,
+      custom: [{ name: 'newOffer', title: `Send Offer` }],
+      position: 'right'
     },
-    delete: {
-      deleteButtonContent: ""
-    },
-    add: {
-      confirmCreate: true,
-      addButtonContent: ""
-    },update: {
-      updateButtonContent: "Send"
-    },
+
+
     columns: {
+
       productCode: {
         title: 'Product Code',
         filter: true,
         editable: false,
       },
-      productCategory: {
+      categoryTitle: {
         title: 'Category',
         filter: true,
         editable: false,
@@ -71,10 +99,6 @@ export class BuyModuleComponent implements OnInit {
         filter: true,
         editable: false,
       },
-    askedPrice: {
-      title: 'Offer Price',
-      filter: true
-    },
       company: {
       title: 'Seller',
       filter: true,
@@ -113,28 +137,42 @@ export class BuyModuleComponent implements OnInit {
         });
   }
 
-  /*updateRecord(event) {
-    console.log('ddddd');
-    var data = {
-      "productCode" : event.newData.productCode,
-      "productCategory" : event.newData.productCategory,
-      "productName" : event.newData.productName,
-      "productPrice" : +event.newData.productPrice,
-      "username": JSON.parse(localStorage.getItem("currentUser")).username,
-    };
+  closeResult: string;
 
-    this.http.put<offer>('http://localhost:8000/api/offer/'+event.newData.id, data).subscribe(
-        res => {
-          console.log(res);
-          event.confirm.resolve(event.newData);
-        },
-        (err: HttpErrorResponse) => {
-          if (err.error instanceof Error) {
-            console.log("Client-side error occured.");
-          } else {
-            console.log("Server-side error occured.");
-          }
-        });
-  }*/
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  @ViewChild('newOfferDialog') newOfferDialog: ElementRef;
+
+  newOfferDto: offer = null;
+
+  openNewOfferDialog(event) {
+    this.newOfferDto = new offer();
+
+
+    console.log(event.data.productCode);
+
+    this.selectedProductDto = event.data;
+    this.modalService.open(this.newOfferDialog, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
 
 }

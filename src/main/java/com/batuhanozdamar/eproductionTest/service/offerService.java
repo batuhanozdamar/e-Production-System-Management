@@ -1,7 +1,6 @@
 package com.batuhanozdamar.eproductionTest.service;
 
-import com.batuhanozdamar.eproductionTest.dto.offerDto;
-import com.batuhanozdamar.eproductionTest.dto.productDto;
+import com.batuhanozdamar.eproductionTest.dto.OfferDto;
 import com.batuhanozdamar.eproductionTest.util.TPage;
 import org.springframework.data.domain.Pageable;
 
@@ -9,15 +8,15 @@ import java.util.List;
 
 public interface offerService {
 
-    offerDto save(offerDto offer);
+    OfferDto save(OfferDto offer);
 
-    offerDto getById(Long id);
+    OfferDto getById(Long id);
 
-    TPage<offerDto> getAllPageable(Pageable pageable);
+    TPage<OfferDto> getAllPageable(Pageable pageable);
 
-    List<offerDto> getAllByUsername();
+    List<OfferDto> getAllByUsername();
 
-    Boolean delete(offerDto offer);
+    Boolean delete(OfferDto offer);
 
-    offerDto update(Long id, offerDto offer);
+    OfferDto update(Long id, OfferDto offer);
 }

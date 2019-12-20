@@ -1,8 +1,10 @@
+import {category} from "./category";
+import {user} from "./user";
+
 export class product {
+    id: number;
     productName: string;
     productCode: string;
-    productCategory: string;
-    productPrice: number;
-    askedPrice: number;
-    company: string;
+    productCategory: category;
+    user: user;
 }

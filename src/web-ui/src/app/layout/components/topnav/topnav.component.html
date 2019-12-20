@@ -33,17 +33,21 @@
     </mat-menu>  -->
 
     <!-- profile button -->
+    {{activeUser.company.companyName}}
+    <a>[</a>{{activeUser.username}}<a>]</a>
+
+    <div>
     <button class="hidden-sm" mat-icon-button [matMenuTriggerFor]="profile">
         <mat-icon>account_circle</mat-icon>
     </button>
-
+    </div>
     <!-- profile button details -->
-    <mat-menu #profile="matMenu">
+ <!--   <mat-menu #profile="matMenu">
         <button mat-menu-item>
             <mat-icon>person</mat-icon>
             <a>{{activeUser.username}}</a>
         </button>
-<!--        <button>{{activeUser.username}}</button>-->
+&lt;!&ndash;        <button>{{activeUser.username}}</button>&ndash;&gt;
         <button mat-menu-item>
             <mat-icon>inbox</mat-icon>
             <span>{{ 'Inbox' | translate }}</span>
@@ -52,7 +56,7 @@
             <mat-icon>settings</mat-icon>
             <span>{{ 'Settings' | translate }}</span>
         </button>
-    </mat-menu>
+    </mat-menu>-->
 
     <!-- logout button -->
     <button mat-icon-button [routerLink]="['/login']">

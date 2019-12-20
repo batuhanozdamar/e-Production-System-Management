@@ -1,0 +1,8 @@
+<!--Offered Items-->
+<div><h2>Offered Items</h2></div>
+<br>
+<div>
+  <ng2-smart-table [settings]="settings" [source]="data"
+                   (createConfirm)="addRecord($event)"
+                   (deleteConfirm)="deleteRecord($event)"></ng2-smart-table>
+</div>

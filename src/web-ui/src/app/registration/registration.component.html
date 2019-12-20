@@ -33,6 +33,15 @@
         </div>
       </div>
 
+      <!-- Company -->
+      <div fxFlex  fxlayout="row" fxlayout.lt-md="column">
+        <div fxFlexFill>
+          <mat-form-field class="w-100">
+            <input matInput type="text" placeholder="Company Name" formControlName="company" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.company.errors }">
+          </mat-form-field>
+        </div>
+      </div>
+
       <!-- E-mail -->
       <div fxFlex  fxLayout="row" fxLayout.lt-md="column">
         <div fxFlexFill>

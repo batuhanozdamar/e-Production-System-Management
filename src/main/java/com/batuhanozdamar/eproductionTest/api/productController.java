@@ -1,6 +1,6 @@
 package com.batuhanozdamar.eproductionTest.api;
 
-import com.batuhanozdamar.eproductionTest.dto.productDto;
+import com.batuhanozdamar.eproductionTest.dto.ProductDto;
 import com.batuhanozdamar.eproductionTest.service.implementation.productServiceImpl;
 import com.batuhanozdamar.eproductionTest.util.ApiPaths;
 import com.batuhanozdamar.eproductionTest.util.TPage;
@@ -26,35 +26,35 @@ public class productController {
         }
 
         @GetMapping("/pagination")
-        @ApiOperation(value = "Get By Pagination Operation", response = productDto.class)
-        public ResponseEntity<TPage<productDto>> getAllByPagination(Pageable pageable) {
-            TPage<productDto> data = productServiceImpl.getAllPageable(pageable);
+        @ApiOperation(value = "Get By Pagination Operation", response = ProductDto.class)
+        public ResponseEntity<TPage<ProductDto>> getAllByPagination(Pageable pageable) {
+            TPage<ProductDto> data = productServiceImpl.getAllPageable(pageable);
             return ResponseEntity.ok(data);
         }
 
         @GetMapping()
-        @ApiOperation(value = "Get All Operation", response = productDto.class , responseContainer = "List")
-        public ResponseEntity<List<productDto>> getAll() {
-            List<productDto> data = productServiceImpl.getAllByUsername();
+        @ApiOperation(value = "Get All Operation", response = ProductDto.class , responseContainer = "List")
+        public ResponseEntity<List<ProductDto>> getAll() {
+            List<ProductDto> data = productServiceImpl.getAll();
             return ResponseEntity.ok(data);
         }
 
         @GetMapping("/{id}")
-        @ApiOperation(value = "Get By Id Operation", response = productDto.class)
-        public ResponseEntity<productDto> getById(@PathVariable(value = "id", required = true) Long id) {
-            productDto issue = productServiceImpl.getById(id);
+        @ApiOperation(value = "Get By Id Operation", response = ProductDto.class)
+        public ResponseEntity<ProductDto> getById(@PathVariable(value = "id", required = true) Long id) {
+            ProductDto issue = productServiceImpl.getById(id);
             return ResponseEntity.ok(issue);
         }
 
         @PostMapping
-        @ApiOperation(value = "Create Operation", response = productDto.class)
-        public ResponseEntity<productDto> createProduct(@Valid @RequestBody productDto product) {
+        @ApiOperation(value = "Create Operation", response = ProductDto.class)
+        public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto product) {
             return ResponseEntity.ok(productServiceImpl.save(product));
         }
 
         @PutMapping("/{id}")
-        @ApiOperation(value = "Update Operation", response = productDto.class)
-        public ResponseEntity<productDto> updateProduct(@PathVariable(value = "id", required = true) Long id, @Valid @RequestBody productDto product) {
+        @ApiOperation(value = "Update Operation", response = ProductDto.class)
+        public ResponseEntity<ProductDto> updateProduct(@PathVariable(value = "id", required = true) Long id, @Valid @RequestBody ProductDto product) {
             return ResponseEntity.ok(productServiceImpl.update(id, product));
         }
 

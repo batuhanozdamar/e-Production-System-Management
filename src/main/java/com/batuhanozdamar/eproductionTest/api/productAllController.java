@@ -1,6 +1,6 @@
 package com.batuhanozdamar.eproductionTest.api;
 
-import com.batuhanozdamar.eproductionTest.dto.productDto;
+import com.batuhanozdamar.eproductionTest.dto.ProductDto;
 import com.batuhanozdamar.eproductionTest.service.implementation.productServiceImpl;
 import com.batuhanozdamar.eproductionTest.util.ApiPaths;
 import io.swagger.annotations.Api;
@@ -24,9 +24,9 @@ public class productAllController {
     }
 
     @GetMapping()
-    @ApiOperation(value = "Get All Operation", response = productDto.class , responseContainer = "List")
-    public ResponseEntity<List<productDto>> getAll() {
-        List<productDto> data = productServiceImpl.getAll();
+    @ApiOperation(value = "Get All Operation", response = ProductDto.class , responseContainer = "List")
+    public ResponseEntity<List<ProductDto>> getAll() {
+        List<ProductDto> data = productServiceImpl.getAll();
         return ResponseEntity.ok(data);
     }
 

@@ -24,7 +24,7 @@ import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {ModalModule} from "ngx-bootstrap";
 import {JwtInterceptor} from "../security/jwt.interceptor";
 import {ErrorInterceptor} from "../security/authentication.interceptor";
-import {AdminModule} from "./admin/admin.module";
+import {ChartsModule} from "ng2-charts";
 
 
 @NgModule({
@@ -42,13 +42,14 @@ import {AdminModule} from "./admin/admin.module";
         NgxDatatableModule,
         HttpClientModule,
         ModalModule,
+        ChartsModule
     ],
     declarations: [LayoutComponent, NavComponent,
       TopnavComponent, SidebarComponent, FooterComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [ApiService,ProductService,UserService
     , {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-        {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}]
+        {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}],
 
 })
 export class LayoutModule { }

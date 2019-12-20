@@ -11,16 +11,16 @@ import java.util.List;
 
 public interface productRepository extends JpaRepository<product, Long> {
 
-    product getByProductCategory(String productCategory);
+   /* product getByProductCategory(String productCategory);
 
     product getByProductCategoryAndIdNot(String productCategory, Long id);
 
-    List<product> getByProductCategoryContains(String productName);
+    List<product> getByProductCategoryContains(String productName);*/
 
     Page<product> findAll(Pageable pageable);
 
     List<product> findAll(Sort sort);
 
-    List<product> findByCompany(User company);
+    //List<product> findByCompany(User company);
 
 }

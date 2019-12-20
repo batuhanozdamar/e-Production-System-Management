@@ -3,30 +3,70 @@
   <!-- Side Bar Content -->
     <mat-nav-list>
 
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/dashboard']">
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/dashboard']" *ngIf="currentUser.role.id == 1 || currentUser.role.id == 2 || currentUser.role.id == 3">
             <mat-icon class="sidenav-icon">dashboard</mat-icon> {{ 'Dashboard' | translate }}
         </a>
 
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/stockModule']">
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/stockModule']" *ngIf="currentUser.role.id == 4  || currentUser.role.id == 1 || currentUser.role.id == 2">
           <mat-icon class="sidenav-icon">assignment</mat-icon> {{ 'Stock Management' | translate }}
         </a>
 
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/procurementModule']">
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/procurementModule']" *ngIf="currentUser.role.id == 3  || currentUser.role.id == 1 || currentUser.role.id == 2" >
           <mat-icon class="sidenav-icon">shopping_cart</mat-icon> {{ 'Procurement' | translate }}
         </a>
 
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/manageModule']">
-          <mat-icon class="sidenav-icon">list</mat-icon> {{ 'Manage Module' | translate }}
+        <!--<a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/manageModule']" *ngIf="currentUser.role.id == 4  || currentUser.role.id == 1 || currentUser.role.id == 2">
+
+            <mat-menu #appMenu="matMenu" >
+                <ng-template matMenuContent let-name="name">
+                    <button mat-menu-item  [routerLink]="['/manageModule/addCategory']" *ngIf="currentUser.role.id == 4  || currentUser.role.id == 1 || currentUser.role.id == 2">Add Category</button>
+                    <button mat-menu-item [routerLink]="['/manageModule/product']"  *ngIf="currentUser.role.id == 4  || currentUser.role.id == 1 || currentUser.role.id == 2">Add New Product</button>
+                    <button mat-menu-item  [routerLink]="['/manageModule/addUser']" *ngIf="currentUser.role.id == 1 || currentUser.role.id == 2">Add New User</button>
+                </ng-template>
+            </mat-menu>
+
+            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                <mat-icon>list</mat-icon>
+            </button>
+           {{ 'Manage Module' | translate }}
+        </a>-->
+
+        <a mat-list-item (click)="showSubmenu = !showSubmenu" class="parent" *ngIf="currentUser.role.id == 4  || currentUser.role.id == 1 || currentUser.role.id == 2">
+            <span class="full-width">Manage Module</span>
+            <mat-icon mat-list-icon>list</mat-icon>
+            <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon>
         </a>
 
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/produceModule']">
+        <div *ngIf="showSubmenu">
+            <mat-nav-list >
+
+                <a mat-list-item  [routerLink]="['/manageModule/addCategory']" *ngIf="currentUser.role.id == 4  || currentUser.role.id == 1 || currentUser.role.id == 2">
+                    <mat-icon class="sidenav-icon">plus</mat-icon> {{ 'Add New Category' | translate }}
+                </a>
+
+                <a mat-list-item [routerLink]="['/manageModule/product']" *ngIf="currentUser.role.id == 4  || currentUser.role.id == 1 || currentUser.role.id == 2">
+                    <mat-icon class="sidenav-icon">plus</mat-icon> {{ 'Add New Product' | translate }}
+                </a>
+
+
+                <a mat-list-item  [routerLink]="['/manageModule/addUser']" *ngIf="currentUser.role.id == 1 || currentUser.role.id == 2">
+                    <mat-icon class="sidenav-icon">plus</mat-icon> {{ 'Add New User' | translate }}
+                </a>
+
+            </mat-nav-list>
+        </div>
+
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/produceModule']" *ngIf="currentUser.role.id == 1 || currentUser.role.id == 2">
           <mat-icon class="sidenav-icon">event</mat-icon> {{ 'Produce Module' | translate }}
         </a>
 
-        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin']" *ngIf="isAdmin">
+        <a mat-list-item [routerLinkActive]="'active'" [routerLink]="['/admin']" *ngIf="currentUser.role.id == 2">
             <mat-icon class="sidenav-icon">settings</mat-icon> {{ 'System Admin' | translate }}
         </a>
+
 
     </mat-nav-list>
 
 </div>
+
+

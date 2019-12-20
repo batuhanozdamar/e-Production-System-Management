@@ -1,12 +1,13 @@
 package com.batuhanozdamar.eproductionTest.api;
 
-import com.batuhanozdamar.eproductionTest.dto.userDto;
+import com.batuhanozdamar.eproductionTest.dto.UserDto;
 import com.batuhanozdamar.eproductionTest.service.implementation.UserServiceImpl;
 import com.batuhanozdamar.eproductionTest.util.ApiPaths;
 import com.batuhanozdamar.eproductionTest.util.TPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,17 +29,17 @@ public class UserController {
 
 
     @GetMapping("/pagination")
-    @ApiOperation(value = "Get By Pagination Operation", response = userDto.class)
-    public ResponseEntity<TPage<userDto>> getAllByPagination(Pageable pageable) {
-        TPage<userDto> data = userServiceImpl.getAllPageable(pageable);
+    @ApiOperation(value = "Get By Pagination Operation", response = UserDto.class)
+    public ResponseEntity<TPage<UserDto>> getAllByPagination(Pageable pageable) {
+        TPage<UserDto> data = userServiceImpl.getAllPageable(pageable);
         return ResponseEntity.ok(data);
     }
 
 
     @GetMapping()
-    @ApiOperation(value = "Get All By Operation", response = userDto.class)
-    public ResponseEntity<List<userDto>> getAll() {
-        List<userDto> data = userServiceImpl.getAll();
+    @ApiOperation(value = "Get All By Operation", response = UserDto.class)
+    public ResponseEntity<List<UserDto>> getAll() {
+        List<UserDto> data = userServiceImpl.getAll();
         return ResponseEntity.ok(data);
     }
 
@@ -50,16 +51,24 @@ public class UserController {
 
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Get By Id Operation", response = userDto.class)
-    public ResponseEntity<userDto> getById(@PathVariable(value = "id", required = true) Long id) {
-        userDto user = userServiceImpl.getById(id);
+    @ApiOperation(value = "Get By Id Operation", response = UserDto.class)
+    public ResponseEntity<UserDto> getById(@PathVariable(value = "id", required = true) Long id) {
+        UserDto user = userServiceImpl.getById(id);
         return ResponseEntity.ok(user);
     }
 
 
     @PostMapping
-    @ApiOperation(value = "Create Operation", response = userDto.class)
-    public ResponseEntity<userDto> createUser(@Valid @RequestBody userDto user) {
+    @ApiOperation(value = "Create Operation", response = UserDto.class)
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto user) {
         return ResponseEntity.ok(userServiceImpl.save(user));
+    }
+
+    @PostMapping("/addUserCompany")
+    @ApiOperation(value = "Create With Company Operation", response = UserDto.class)
+    public ResponseEntity<HttpStatus> createWithCompany(@Valid @RequestBody UserDto user)
+    {
+        userServiceImpl.createWithCompany(user);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }

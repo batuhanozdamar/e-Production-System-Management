@@ -1,0 +1,7 @@
+<div><h2>Add New Product</h2></div>
+<br>
+<div>
+  <ng2-smart-table [settings]="settings" [source]="data" (createConfirm)="addRecord($event)"
+                   (editConfirm)="updateRecord($event)"
+                   (deleteConfirm)="deleteRecord($event)"></ng2-smart-table>
+</div>

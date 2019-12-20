@@ -26,6 +26,7 @@ export class RegistrationComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required],
       nameSurname: ['', Validators.required],
+      company: ['', Validators.required],
       email: ['', Validators.required],
     });
     this.authenticationService.logout();
@@ -37,6 +38,7 @@ export class RegistrationComponent implements OnInit {
 
   register() {
     this.submitted = true;
+
     if (this.registerForm.invalid) {
       return;
     }

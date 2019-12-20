@@ -13,6 +13,6 @@ import java.util.List;
 public interface offerRepository extends JpaRepository<offer, Long> {
 
     List<offer> findAll(Sort sort);
-    List<offer> findByCompany(User company);
+    //List<offer> findByCompany(User company);
     Page<offer> findAll(Pageable pageable);
 }

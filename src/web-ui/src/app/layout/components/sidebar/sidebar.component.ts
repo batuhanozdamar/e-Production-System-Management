@@ -8,16 +8,21 @@ import { Component, OnInit } from '@angular/core';
 export class SidebarComponent implements OnInit {
     public showMenu: string;
     constructor() {}
-    private isAdmin = false;
+     currentUser = null;
 
     ngOnInit() {
         this.showMenu = '';
         var currentUserStr = localStorage.getItem("currentUser");
+
         if (currentUserStr != null && currentUserStr != "") {
-            var currentUser= JSON.parse(currentUserStr);
-            this.isAdmin = currentUser.isAdmin;
+            this.currentUser= JSON.parse(currentUserStr);
+
         }
+
+
     }
+
+
 
     addExpandClass(element: any) {
         if (element === this.showMenu) {

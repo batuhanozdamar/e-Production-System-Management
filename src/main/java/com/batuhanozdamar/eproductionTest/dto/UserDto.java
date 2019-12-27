@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,14 +18,18 @@ public class UserDto {
     @ApiModelProperty(required = true,value = "ID")
     private Long id;
 
+    @NotNull
     @ApiModelProperty(required = true,value = "Name Surname")
     private String nameSurname;
 
+    @NotNull
     @ApiModelProperty(required = true,value = "User Name")
     private String username;
 
+    @NotNull
     @ApiModelProperty(required = true,value = "Password")
     private String password;
+
 
     @ApiModelProperty(required = true,value = "E-Mail")
     private String email;
@@ -34,6 +40,7 @@ public class UserDto {
     @ApiModelProperty(required = true,value = "role")
     private RoleDto role;
 
+    @NotNull
     @ApiModelProperty(required = true,value = "company")
     private CompanyDto company;
 }

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -27,6 +28,10 @@ public class product{
 
     @Column(name = "product_code", length = 50, unique = true)
     private String productCode;
+
+    @NotNull
+    @Column(name = "necessary_amount")
+    private int necessaryAmount;
 
     @JoinColumn(name = "category")
     @ManyToOne(optional = true, fetch = FetchType.LAZY)

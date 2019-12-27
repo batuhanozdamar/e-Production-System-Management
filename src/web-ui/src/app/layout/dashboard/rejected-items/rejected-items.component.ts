@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ApiService} from "../../../shared/services/api.service";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-rejected-items',
@@ -16,11 +17,28 @@ export class RejectedItemsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get<ApiService>('http://localhost:8000/api/offer/').subscribe(
-        data => {
-          debugger;
-          this.data = data;
 
+    var currentUserStr = localStorage.getItem("currentUser");
+    if (currentUserStr != null && currentUserStr != "") {
+      var currentUser= JSON.parse(currentUserStr);
+    }
+
+    this.http.get<ApiService>('http://localhost:8000/api/offer/getOffers?offerCompanyId=' + currentUser.company.id + '&statusId=4').subscribe(
+        data => {
+
+          // @ts-ignore
+          for (let offer of data) {
+            offer.productCode = offer.companyProductDto.productCode;
+            offer.productCategory = offer.companyProductDto.product.category.title;
+            offer.productName = offer.companyProductDto.product.productName;
+            offer.productPrice = offer.companyProductDto.productPrice;
+            //offer.company = offer.companyDto.companyName;
+            offer.company = offer.companyProductDto.company.companyName;
+            offer.amount = offer.askedAmount;
+            offer.rejectedAt = formatDate(offer.rejectedAt,'dd/MM/yyyy HH:mm','en-US');
+          }
+
+          this.data = data;
           console.log(this.data);
         },
         (err: HttpErrorResponse) => {
@@ -39,11 +57,11 @@ export class RejectedItemsComponent implements OnInit {
       productCode: {
         title: 'Product Code',
         filter: true
-      },
+      }/*,
       productCategory: {
         title: 'Category',
         filter: true,
-      },
+      }*/,
       productName: {
         title: 'Product Name',
         filter: true
@@ -56,21 +74,17 @@ export class RejectedItemsComponent implements OnInit {
         title: 'Rejected Price',
         filter: true
       },
-      company: {
-        title: 'Offered By',
-        filter: true,
-        editable: false,
-        valuePrepareFunction: (user) => {
-          return user.nameSurname;
-        }
-      },
-    date:{
-      title: 'Date',
+    amount:{
+      title: 'Rejected Amount',
       filter: true
     },
-      amount:{
-        title: 'Amount',
-        filter: true
+      company: {
+        title: 'Rejected By',
+        filter: true,
+      },
+      rejectedAt:{
+      title: 'Date',
+      filter: true
       }
     }
   };

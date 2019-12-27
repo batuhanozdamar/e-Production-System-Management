@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ApiService} from "../../../shared/services/api.service";
-import {product} from "../../../common/product";
 import {category} from "../../../common/category";
+import {companyProduct} from "../../../common/companyProduct";
+import {product} from "../../../common/product";
 
 @Component({
   selector: 'app-stock-module',
@@ -15,17 +16,21 @@ export class StockModuleComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
    data:any = [];
+   categories:any = [];
    options:any = [];
-   productArray:any = [];
 
    categoryList:category[] = [];
    productList:product[] = [];
+   colorList:companyProduct[] = [];
+
 
     settings = {
-        actions:{columnTitle: 'Manage Stock'},
+        actions:{columnTitle: 'Manage Stock',position:'right'},
+        pager:{
+            perPage: 18
+        } ,
         add:{
             confirmCreate:true,
-
         },
         edit:{
             confirmSave:true
@@ -38,12 +43,13 @@ export class StockModuleComponent implements OnInit {
             productCode: {
                 title: 'Product Code',
                 filter: true,
-                editable:false
-            },
+                editable:true
+            },/*
             categoryTitle: {
                 title: 'Category',
                 filter: true,
                 editable:false,
+                addable: false,
                 editor: {
                     type: 'list',
                     config: {
@@ -51,11 +57,11 @@ export class StockModuleComponent implements OnInit {
                         list: []
                     }
                 },
-            },
-            productName: {
+            },*/
+            productNames: {
                 title: 'Product Name',
                 filter: true,
-                editable:false,
+                editable:true,
                 editor: {
                     type: 'list',
                     config: {
@@ -64,7 +70,7 @@ export class StockModuleComponent implements OnInit {
                     }
                 },
             },
-            productColor: {
+            productColors: {
                 title: 'Color',
                 filter: true,
                 editable:true,
@@ -72,11 +78,17 @@ export class StockModuleComponent implements OnInit {
                     type: 'list',
                     config: {
                         // type: 'Select Category',
-                        list: [{value:"Siyah", title:"Siyah"},
-                            {value:"Beyaz", title:"Beyaz"},
-                            {value:"Sarı", title:"Sarı"},
-                            {value:"Lacivert", title:"Lacivert"}]
-
+                        list: [{value:"Black", title:"Black"},
+                            {value:"White", title:"White"},
+                            {value:"Yellow", title:"Yellow"},
+                            {value:"Green", title:"Green"},
+                            {value:"Blue", title:"Blue"},
+                            {value:"Red", title:"Red"},{value:"Brown", title:"Brown"},
+                            {value:"Silver", title:"Silver"},{value:"Purple", title:"Purple"},
+                            {value:"Orange", title:"Orange"},{value:"Gray", title:"Gray"},
+                            {value:"Pink", title:"Pink"},{value:"Cyan", title:"Cyan"},
+                            {value:"Fuchsia", title:"Fuchsia"},{value:"Magenta", title:"Magenta"},
+                            {value:"Olive", title:"Olive"},{value:"Lime", title:"Lime"}]
                     }
                 },
             },
@@ -93,45 +105,62 @@ export class StockModuleComponent implements OnInit {
 
    ngOnInit(): void {
 
-       this.http.get<ApiService>('http://localhost:8000/api/category').subscribe(
-           options => {
-               //self.options = options;
-
-               console.log(this.settings);
-               // @ts-ignore
-               this.categoryList = options;
-
-               var newSetting:any = this.settings;
-               newSetting.columns.categoryTitle.editor.config.list = options;
-               this.settings = Object.assign({}, newSetting);
-           }
-       );
-
        this.http.get<ApiService>('http://localhost:8000/api/product').subscribe(
-           productArray => {
-               // @ts-ignore
-               this.productList = productArray;
+          data => {
+              // @ts-ignore
+              for (let product of data) {
+                  this.options.push({value: product.id, title: product.productName});
+                  this.categories.push({id:product.category.value, productId: product.id, categoryName:product.category.title});
+              }
+              debugger;
 
-               var newSetting:any = this.settings;
-               newSetting.columns.productName.editor.config.list = productArray;
-               this.settings = Object.assign({}, newSetting);
-           }
-       );
+              var newSetting:any = this.settings;
+              newSetting.columns.productNames.editor.config.list = this.options;
 
-       this.http.get<ApiService>('http://localhost:8000/api/companyProduct').subscribe(
+              this.settings = Object.assign({}, newSetting);
 
+          }
+      );
+      this.refreshPage();
+   }
+
+   refreshPage(){
+    /*   this.http.get<ApiService>('http://localhost:8000/api/product').subscribe(
            data => {
 
-               var dataList = data;
-             /*  // @ts-ignore
+               // @ts-ignore
                for (let product of data) {
-                   product.categoryTitle = product.category.title
-                   product.productName = product.productName
-               }*/
+                   product.categoryTitle = product.category.title;
+                   product.productNames = product.productName;
+               }
 
                this.data = data;
                console.log(this.data);
+           }
+       );*/
+
+
+       this.http.get<ApiService>('http://localhost:8000/api/companyProduct/' + JSON.parse(localStorage.getItem("currentUser")).company.id).subscribe(
+           data => {
+                   // @ts-ignore
+
+
+               for (let companyProduct of data) {
+                   companyProduct.productNames = companyProduct.product.productName;
+                   companyProduct.categoryTitle = companyProduct.product.category.title;
+                   companyProduct.productColors = companyProduct.productColor;
+               }
+               debugger;
+
+               /*for (let companyProduct of data) {
+                   companyProduct.productColors = companyProduct.productColor;
+                   companyProduct.productNames = companyProduct.product.productName;
+                   companyProduct.categoryTitle = companyProduct.product.productCategory;
+               }*/
+               this.data = data;
+               console.log(this.data);
            },
+
            (err: HttpErrorResponse) => {
                if (err.error instanceof Error) {
                    console.log("Client-side error occured.");
@@ -146,18 +175,17 @@ export class StockModuleComponent implements OnInit {
    addRecord(event) {
 
      var data = {
-
        "productCode" : event.newData.productCode,
-       "categoryTitle" : event.newData.categoryTitle,
-       "productName" : event.newData.productName,
+       "product" : {id: event.newData.productNames},
        "productPrice" : +event.newData.productPrice,
-       "productColor" : event.newData.productColor,
+       "productColor" : event.newData.productColors,
        "productAmount" : +event.newData.productAmount,
-       "username": JSON.parse(localStorage.getItem("currentUser")).username,
+        "company": {id: JSON.parse(localStorage.getItem("currentUser")).company.id}
      };
 
      this.http.post<ApiService>('http://localhost:8000/api/companyProduct/', data).subscribe(
          res => {
+           this.refreshPage();
            console.log(res);
            event.confirm.resolve(event.newData);
          },
@@ -166,15 +194,17 @@ export class StockModuleComponent implements OnInit {
              console.log("Client-side error occured.");
            } else {
              console.log("Server-side error occured.");
+               alert('Please perform the requirements\nProduct Code must be UNIQUE\nFields Cannot be null!');
            }
          });
    }
+
 
    deleteRecord(event){
 
      console.log(event.data);
 
-     this.http.delete<product>('http://localhost:8000/api/companyProduct/'+event.data.id).subscribe(
+     this.http.delete<companyProduct>('http://localhost:8000/api/companyProduct/'+event.data.id).subscribe(
          res => {
            console.log(res);
            event.confirm.resolve(event.source.data);
@@ -189,25 +219,27 @@ export class StockModuleComponent implements OnInit {
          });
    }
 
+
+
    updateRecord(event) {
 
      console.log('ddddd');
 
        var data = {
            "productCode" : event.newData.productCode,
-           "categoryTitle" : event.newData.categoryTitle,
-           "productName" : event.newData.productName,
+           "product" : {id: event.newData.productNames},
            "productPrice" : +event.newData.productPrice,
-           "productColor" : event.newData.productColor,
+           "productColor" : event.newData.productColors,
            "productAmount" : +event.newData.productAmount,
-           "username": JSON.parse(localStorage.getItem("currentUser")).username,
+           "company": {id: JSON.parse(localStorage.getItem("currentUser")).company.id}
        };
 
-     this.http.put<product>('http://localhost:8000/api/companyProduct/'+event.newData.id, data).subscribe(
+     this.http.put<companyProduct>('http://localhost:8000/api/companyProduct/'+event.newData.id, data).subscribe(
 
          res => {
            console.log(res);
            event.confirm.resolve(event.newData);
+           this.refreshPage();
          },
 
          (err: HttpErrorResponse) => {
@@ -216,6 +248,7 @@ export class StockModuleComponent implements OnInit {
              console.log("Client-side error occured.");
            } else {
              console.log("Server-side error occured.");
+               alert('Please perform the requirements\nProduct Code must be UNIQUE\nFields Cannot be null!');
            }
 
          });

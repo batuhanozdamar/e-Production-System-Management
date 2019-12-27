@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 // @ts-ignore
-import { Label } from 'ng2-charts';
+import {BaseChartDirective, Label} from 'ng2-charts';
+import {ApiService} from "../../shared/services/api.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: 'app-dashboard',
@@ -9,25 +11,183 @@ import { Label } from 'ng2-charts';
     styleUrls: ['./dashboard.component.scss']
 })
 
-export class DashboardComponent implements OnInit {
-    ngOnInit(): void {
-    }
+export class DashboardComponent implements OnInit, AfterViewInit {
 
-    /*chartOptions = {
-        responsive: true
+
+
+    newOrderCount: number=0;
+    myOfferCount: number=0;
+    acceptedOffer: number=0;
+    rejectedOffer: number=0;
+
+
+
+    chSoldProductLoaded=false;
+    chSoldProductLoadedP=false;
+
+
+    public productDistData:any = {
+        data : [],
+        labels: [],
+        list: []
     };
 
-    chartData = [
-        { data: [330, 600, 260, 700], label: 'Account A' },
-        { data: [120, 455, 100, 340], label: 'Account B' },
-        { data: [45, 67, 800, 500], label: 'Account C' }
-    ];
+    public productDistDataP:any = {
+        data : [],
+        labels: [],
+        list: []
+    };
 
-    chartLabels = ['January', 'February', 'Mars', 'April'];
+    //category: number=0;
 
-    onChartClick(event) {
-        console.log(event);
-    }*/
+    constructor(private http: HttpClient) {
+
+    }
+
+    ngOnInit(): void {
+        this.refreshPage();
+    }
+
+    refreshPage(){
+        this.refreshNewOrferCount();
+        this.refreshmyOfferCount();
+        this.refreshMyRejectedOffer();
+        this.refreshMyAcceptedOffer();
+
+    }
+
+    refreshNewOrferCount(){
+
+        var currentUserStr = localStorage.getItem("currentUser");
+        if (currentUserStr != null && currentUserStr != "") {
+            var currentUser= JSON.parse(currentUserStr);
+        }
+
+        this.http.get<ApiService>('http://localhost:8000/api/offer/getOffers?productCompanyId=' + currentUser.company.id + '&statusId=2').subscribe(
+            data => {
+                // @ts-ignore
+                this.newOrderCount = data.length;
+            })
+    }
+
+    refreshmyOfferCount(){
+        var currentUserStr = localStorage.getItem("currentUser");
+        if (currentUserStr != null && currentUserStr != "") {
+            var currentUser= JSON.parse(currentUserStr);
+        }
+
+        this.http.get<ApiService>('http://localhost:8000/api/offer/getOffers?offerCompanyId=' + currentUser.company.id + '&statusId=2').subscribe(
+            data => {
+                // @ts-ignore
+                this.myOfferCount = data.length;
+            })
+    }
+
+    refreshMyAcceptedOffer(){
+        var currentUserStr = localStorage.getItem("currentUser");
+        if (currentUserStr != null && currentUserStr != "") {
+            var currentUser= JSON.parse(currentUserStr);
+        }
+
+        this.http.get<ApiService>('http://localhost:8000/api/offer/getOffers?offerCompanyId=' + currentUser.company.id + '&statusId=3').subscribe(
+            data => {
+                // @ts-ignore
+                this.acceptedOffer = data.length;
+            })
+    }
+
+    refreshMyRejectedOffer(){
+        var currentUserStr = localStorage.getItem("currentUser");
+        if (currentUserStr != null && currentUserStr != "") {
+            var currentUser= JSON.parse(currentUserStr);
+        }
+
+        this.http.get<ApiService>('http://localhost:8000/api/offer/getOffers?offerCompanyId=' + currentUser.company.id + '&statusId=4').subscribe(
+            data => {
+                // @ts-ignore
+                this.rejectedOffer = data.length;
+            })
+    }
+
+    refreshMyProductAmount(){
+        var currentUserStr = localStorage.getItem("currentUser");
+        if (currentUserStr != null && currentUserStr != "") {
+            var currentUser= JSON.parse(currentUserStr);
+        }
+
+        this.http.get<ApiService>('http://localhost:8000/api/offer/getOffers?productCompanyId=' + currentUser.company.id + '&statusId=3').subscribe(
+            data => {
+
+                this.productDistData.list = data;
+                var labels : Label[] = [];
+                this.productDistData.labels = labels;
+                this.productDistData.data = [];
+                for (var i = 0; i< this.productDistData.list.length; i++) {
+                    var productName = this.productDistData.list[i].companyProductDto.product.productName;
+                    var foundedIndex = this.productDistData.labels.indexOf(productName);
+                    if(foundedIndex>=0) {
+                        this.productDistData.data[foundedIndex] += this.productDistData.list[i].askedAmount;
+                    }else {
+                        labels.push(productName);
+                        this.productDistData.labels = labels;
+                        this.productDistData.data.push(this.productDistData.list[i].askedAmount);
+                    }
+                }
+
+                console.log(this.productDistData);
+                this.chSoldProductLoaded = true;
+               // this.chSoldProduct.chart.update();
+            });
+
+    }
+
+    refreshMyPurchasedAmount(){
+
+        var currentUserStr = localStorage.getItem("currentUser");
+        if (currentUserStr != null && currentUserStr != "") {
+            var currentUser= JSON.parse(currentUserStr);
+        }
+
+        this.http.get<ApiService>('http://localhost:8000/api/offer/getOffers?offerCompanyId=' + currentUser.company.id + '&statusId=3').subscribe(
+            data => {
+
+                this.productDistDataP.list = data;
+                var labels : Label[] = [];
+                this.productDistDataP.labels = labels;
+                this.productDistDataP.data = [];
+                for (var i = 0; i< this.productDistDataP.list.length; i++) {
+                    var productName = this.productDistDataP.list[i].companyProductDto.product.productName;
+                    var foundedIndex = this.productDistDataP.labels.indexOf(productName);
+                    if(foundedIndex>=0) {
+                        this.productDistDataP.data[foundedIndex] += this.productDistDataP.list[i].askedAmount;
+                    }else {
+                        labels.push(productName);
+                        this.productDistDataP.labels = labels;
+                        this.productDistDataP.data.push(this.productDistDataP.list[i].askedAmount);
+                    }
+                }
+
+                console.log(this.productDistDataP);
+                this.chSoldProductLoadedP = true;
+                // this.chSoldProduct.chart.update();
+            });
+
+    }
+
+    ngAfterViewInit(): void {
+        this.refreshMyProductAmount();
+        this.refreshMyPurchasedAmount();
+    }
+
+
+
+
+
+
+
+
+
+//--------------------------------------------------------------------------------------------------------------------------------
 
     //Bar Graph
     public barChartOptions: ChartOptions = {
@@ -41,14 +201,16 @@ export class DashboardComponent implements OnInit {
             }
         }
     };
-    public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+    public barChartLabels: Label[] = ['2013', '2014', '2015', '2016', '2017', '2018', '2019'];
     public barChartType: ChartType = 'bar';
     public barChartLegend = true;
     //public barChartPlugins = [pluginDataLabels];
 
     public barChartData: ChartDataSets[] = [
-        { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-        { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+        { data: [65, 59, 80, 81, 56, 55, 40], label: 'Product 1' },
+        { data: [28, 48, 40, 19, 86, 27, 90], label: 'Product 2' },
+        { data: [48, 68, 30, 69, 76, 37, 70], label: 'Product 3' },
+        { data: [18, 28, 50, 79, 36, 57, 60], label: 'Product 4' }
     ];
 
     // events
@@ -74,6 +236,9 @@ export class DashboardComponent implements OnInit {
     }
 
 
+
+
+
 // ---------------------------------------------------------------------------------------
 
 
@@ -92,8 +257,8 @@ export class DashboardComponent implements OnInit {
             },
         }
     };
-    public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
-    public pieChartData: number[] = [300, 500, 100];
+    public pieChartLabels: Label[] = ['Product 1', 'Product 2', 'Product 3', 'Product 4'];
+    public pieChartData: number[] = [300, 400, 100, 200];
     public pieChartType: ChartType = 'pie';
     public pieChartLegend = true;
     // public pieChartPlugins = [pluginDataLabels];
@@ -103,7 +268,8 @@ export class DashboardComponent implements OnInit {
         },
     ];
 
-    changeLabels() {
+
+    /*changeLabels() {
         const words = ['hen', 'variable', 'embryo', 'instal', 'pleasant', 'physical', 'bomber', 'army', 'add', 'film',
             'conductor', 'comfortable', 'flourish', 'establish', 'circumstance', 'chimney', 'crack', 'hall', 'energy',
             'treat', 'window', 'shareholder', 'division', 'disk', 'temptation', 'chord', 'left', 'hospital', 'beef',
@@ -127,5 +293,5 @@ export class DashboardComponent implements OnInit {
 
     changeLegendPosition() {
         this.pieChartOptions.legend.position = this.pieChartOptions.legend.position === 'left' ? 'top' : 'left';
-    }
+    }*/
 }

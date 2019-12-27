@@ -42,4 +42,8 @@ public final class ApiPaths {
         public static final String CTRL = BASE_PATH + "/role";
     }
 
+    public static final class ReportCtrl {
+        public static final String CTRL = BASE_PATH + "/report";
+    }
+
 }

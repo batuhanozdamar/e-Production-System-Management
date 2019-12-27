@@ -1,5 +1,6 @@
 package com.batuhanozdamar.eproductionTest.dto;
 
+import com.batuhanozdamar.eproductionTest.entity.Company;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -17,11 +18,13 @@ public class CompanyProductDto {
     @ApiModelProperty(value = "id")
     private Long id;
 
-    @ApiModelProperty(required = true,value = "user")
-    private UserDto user;
+    @ApiModelProperty(required = true,value = "productCode")
+    private String productCode;
+
 
     @ApiModelProperty(required = true,value = "company")
     private CompanyDto company;
+
 
     @ApiModelProperty(required = true,value = "product")
     private ProductDto product;
@@ -35,14 +38,10 @@ public class CompanyProductDto {
     private double productAmount;
 
     @NotNull
-    @ApiModelProperty(required = true, value = "Remained Number Of Product")
+    @ApiModelProperty(required = true, value = "Total Of Product")
+    private String productColor;
+
+    @ApiModelProperty(value = "Remained Number Of Product")
     private double stockOnHand;
-
-
-    @ApiModelProperty( value = "username")
-    private String username;
-
-
-
 
 }

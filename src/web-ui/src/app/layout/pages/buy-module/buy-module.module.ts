@@ -7,6 +7,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {Ng2SmartTableModule} from "ng2-smart-table";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatDialogModule} from "@angular/material/dialog";
 @NgModule({
   declarations: [BuyModuleComponent],
     imports: [
@@ -15,7 +16,8 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
         Ng2SmartTableModule,
         FlexLayoutModule.withConfig({addFlexToParent: false}),
         NgbModule,
-        FormsModule
+        FormsModule,
+        MatDialogModule,
     ]
 })
 export class BuyModuleModule { }

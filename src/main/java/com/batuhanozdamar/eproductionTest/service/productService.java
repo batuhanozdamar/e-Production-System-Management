@@ -1,6 +1,7 @@
 package com.batuhanozdamar.eproductionTest.service;
 
 import com.batuhanozdamar.eproductionTest.dto.ProductDto;
+import com.batuhanozdamar.eproductionTest.entity.product;
 import com.batuhanozdamar.eproductionTest.util.TPage;
 import org.springframework.data.domain.Pageable;
 
@@ -25,4 +26,6 @@ public interface productService {
     Boolean delete(ProductDto product);
 
     ProductDto update(Long id, ProductDto product);
+
+    List<product> getByCategory(Long id);
 }

@@ -24,10 +24,10 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required],
+      password: ['', Validators.required,Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')],
       nameSurname: ['', Validators.required],
       company: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")],
     });
     this.authenticationService.logout();
   }
@@ -37,9 +37,11 @@ export class RegistrationComponent implements OnInit {
   }
 
   register() {
+
     this.submitted = true;
 
     if (this.registerForm.invalid) {
+      alert('Please fill the required areas.');
       return;
     }
 

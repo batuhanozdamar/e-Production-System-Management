@@ -35,7 +35,7 @@ export class ProductComponent implements OnInit {
       categoryTitle: {
         title: 'Category',
         filter: true,
-        editable:false,
+        editable: true,
         editor: {
           type: 'list',
           config: {
@@ -48,37 +48,52 @@ export class ProductComponent implements OnInit {
       productCode: {
         title: 'Product Code',
         filter: true,
-        editable:false
+        editable:true
       },
 
       productName: {
         title: 'Product Name',
         filter: true,
-        editable:false
+        editable:true
+      },
+
+      necessaryAmount: {
+          title: 'Necessary Amount',
+          filter: true,
+          editable:true
       }
     }
   };
 
   ngOnInit(): void {
 
+    this.refreshPage();
+  }
+
+  refreshPage(){
     this.http.get<ApiService>('http://localhost:8000/api/category').subscribe(
+
         options => {
 
           console.log(this.settings);
+
           // @ts-ignore
           this.categoryList = options;
+
           var newSetting:any = this.settings;
+
           newSetting.columns.categoryTitle.editor.config.list = options;
+
           this.settings = Object.assign({}, newSetting);
         }
     );
 
     this.http.get<ApiService>('http://localhost:8000/api/product').subscribe(
+
         data => {
 
-          var dataList = data;
           // @ts-ignore
-            for (let product of data) {
+          for (let product of data) {
             product.categoryTitle = product.category.title
           }
 
@@ -97,8 +112,6 @@ export class ProductComponent implements OnInit {
   }
 
 
-
-
   addRecord(event) {
 
     var selectedCategory: category =null;
@@ -115,11 +128,12 @@ export class ProductComponent implements OnInit {
       "category" : selectedCategory,
       "productName" : event.newData.productName,
       "username": JSON.parse(localStorage.getItem("currentUser")).username,
-
+        "necessaryAmount":event.newData.necessaryAmount
     };
 
     this.http.post<ApiService>('http://localhost:8000/api/product/', data).subscribe(
         res => {
+          this.refreshPage();
           console.log(res);
           event.confirm.resolve(event.newData);
         },
@@ -128,6 +142,8 @@ export class ProductComponent implements OnInit {
             console.log("Client-side error occured.");
           } else {
             console.log("Server-side error occured.");
+
+              alert('Please perform the requirements\nProduct Code must be UNIQUE\nFields Cannot be null!');
           }
         });
   }
@@ -140,6 +156,7 @@ export class ProductComponent implements OnInit {
         res => {
           console.log(res);
           event.confirm.resolve(event.source.data);
+          this.refreshPage();
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
@@ -169,10 +186,13 @@ export class ProductComponent implements OnInit {
       "category" : selectedCategory,
       "productName" : event.newData.productName,
       "username": JSON.parse(localStorage.getItem("currentUser")).username,
+        "necessaryAmount":event.newData.necessaryAmount
     };
 
     this.http.put<product>('http://localhost:8000/api/product/'+event.newData.id, data).subscribe(
         res => {
+          this.refreshPage();
+
           console.log(res);
           event.confirm.resolve(event.newData);
         },
@@ -182,6 +202,7 @@ export class ProductComponent implements OnInit {
             console.log("Client-side error occured.");
           } else {
             console.log("Server-side error occured.");
+              alert('Please perform the requirements\nProduct Code must be UNIQUE\nFields Cannot be null!');
           }
         });
   }

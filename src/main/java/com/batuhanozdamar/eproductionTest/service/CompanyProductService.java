@@ -1,6 +1,7 @@
 package com.batuhanozdamar.eproductionTest.service;
 
 import com.batuhanozdamar.eproductionTest.dto.CompanyProductDto;
+import com.batuhanozdamar.eproductionTest.dto.procurementDto;
 import com.batuhanozdamar.eproductionTest.util.TPage;
 import org.springframework.data.domain.Pageable;
 
@@ -14,7 +15,11 @@ public interface CompanyProductService {
 
     TPage<CompanyProductDto> getAllPageable(Pageable pageable);
     List<CompanyProductDto> getAllByCompanyName();
-    List<CompanyProductDto> getAll();
+    List<CompanyProductDto> getAll(Long id);
     Boolean delete(CompanyProductDto companyProduct);
     CompanyProductDto update(Long id, CompanyProductDto companyProduct);
+
+    List<procurementDto> getAllProducts(Long id);
+
+    List<procurementDto> getAllProductsByCategory(Long id, Long categoryId);
 }

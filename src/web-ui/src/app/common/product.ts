@@ -7,4 +7,5 @@ export class product {
     productCode: string;
     productCategory: category;
     user: user;
+    companyProductDto: any;
 }

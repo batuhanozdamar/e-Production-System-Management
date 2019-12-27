@@ -20,29 +20,35 @@ public class offer {
     private Long id;
 
     @JoinColumn(name = "company_product_id")
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     private CompanyProduct companyProduct;
 
-    @JoinColumn(name = "user_id")
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    private User user;
+    @JoinColumn(name = "company_id")
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    private Company company;
 
     @Column(name = "askedPrice", length = 8)
     private double askedPrice;
 
+    @Column(name = "askedAmount", length = 8)
+    private double askedAmount;
+
     //offer id set 1
     @JoinColumn(name = "offer_status_id")
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     private OfferStatus offerStatus;
 
-    @Column(name = "responsePrice", length = 8)
-    private double responsePrice;
+    @Column(name = "offered_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date offeredAt;
 
-    @Column(name = "date")
+    @Column(name = "sold_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date soldAt;
 
-   /* @Column(name = "acceptedPrice", length = 8)
-    private double acceptedPrice;*/
+    @Column(name = "rejected_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date rejectedAt;
+
 }
 

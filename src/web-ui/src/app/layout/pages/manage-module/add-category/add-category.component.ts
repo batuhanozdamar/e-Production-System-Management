@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ApiService} from "../../../../shared/services/api.service";
-import {offer} from "../../../../common/offer";
+import {category} from "../../../../common/category";
 
 
 @Component({
@@ -17,10 +17,14 @@ export class AddCategoryComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.refreshPage();
+  }
+
+  refreshPage(){
+
     this.http.get<ApiService>('http://localhost:8000/api/category').subscribe(
         data => {
           this.data = data;
-
           console.log(this.data);
         },
         (err: HttpErrorResponse) => {
@@ -30,18 +34,19 @@ export class AddCategoryComponent implements OnInit {
             console.log("Server-side error occured.");
           }
         });
+
   }
 
   settings = {
     delete: {
-      deleteButtonContent: ""
+      deleteButtonContent: "Delete Category",
+      confirmDelete: true
     },
     add: {
       confirmCreate: true,
       addButtonContent: "Add New Category"
     },
     edit: {
-      confirmSave:true,
       editButtonContent: ""
     },
 
@@ -64,6 +69,9 @@ export class AddCategoryComponent implements OnInit {
 
     this.http.post<ApiService>('http://localhost:8000/api/category/', data).subscribe(
         res => {
+
+          this.refreshPage();
+
           console.log(res);
           event.confirm.resolve(event.newData);
         },
@@ -77,14 +85,17 @@ export class AddCategoryComponent implements OnInit {
   }
 
   deleteRecord(event){
-    console.log(event.data);
-    debugger;
 
-    this.http.delete<offer>('http://localhost:8000/api/offer/'+ event.data.id).subscribe(
+    console.log(event.data);
+  debugger;
+    this.http.delete<category>('http://localhost:8000/api/category/'+ event.data.value).subscribe(
         res => {
+
+          this.refreshPage();
           console.log(res);
           event.confirm.resolve(event.source.data);
         },
+
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
             console.log("Client-side error occured.");
@@ -92,7 +103,6 @@ export class AddCategoryComponent implements OnInit {
             console.log("Server-side error occured.");
           }
         });
-
   }
 
 }

@@ -3,6 +3,7 @@ package com.batuhanozdamar.eproductionTest.service.implementation;
 import com.batuhanozdamar.eproductionTest.dto.CategoryDto;
 import com.batuhanozdamar.eproductionTest.dto.OfferDto;
 import com.batuhanozdamar.eproductionTest.dto.ProductDto;
+import com.batuhanozdamar.eproductionTest.dto.UserDto;
 import com.batuhanozdamar.eproductionTest.entity.Category;
 import com.batuhanozdamar.eproductionTest.entity.OfferStatus;
 import com.batuhanozdamar.eproductionTest.entity.User;
@@ -46,7 +47,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getById(Long id) {
-        return null;
+
+        Category c = categoryRepository.getOne(id);
+        return modelMapper.map(c, CategoryDto.class);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.batuhanozdamar.eproductionTest.repository;
 
+import com.batuhanozdamar.eproductionTest.entity.Category;
 import com.batuhanozdamar.eproductionTest.entity.User;
 import com.batuhanozdamar.eproductionTest.entity.product;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,10 @@ public interface productRepository extends JpaRepository<product, Long> {
     Page<product> findAll(Pageable pageable);
 
     List<product> findAll(Sort sort);
+
+    List<product> findAllByCategory(Category category);
+
+    List<product> findAllByOrderByProductName();
 
     //List<product> findByCompany(User company);
 

@@ -1,6 +1,7 @@
 package com.batuhanozdamar.eproductionTest.api;
 
 import com.batuhanozdamar.eproductionTest.dto.ProductDto;
+import com.batuhanozdamar.eproductionTest.entity.product;
 import com.batuhanozdamar.eproductionTest.service.implementation.productServiceImpl;
 import com.batuhanozdamar.eproductionTest.util.ApiPaths;
 import com.batuhanozdamar.eproductionTest.util.TPage;
@@ -64,5 +65,10 @@ public class productController {
             return ResponseEntity.ok(productServiceImpl.delete(id));
         }
 
+        @GetMapping("/generateWorkOrder/{id}")
+        public ResponseEntity<List<product>> getByCategory(@PathVariable(value = "id", required = true) Long id) {
+            List<product> issue = productServiceImpl.getByCategory(id);
+            return ResponseEntity.ok(issue);
+        }
 
 }

@@ -30,6 +30,8 @@ import {LoginModule} from "./login/login.module";
 import {UserService} from "./shared/services/user.service";
 import {ChartsModule} from "ng2-charts";
 import { ConfirmationComponent } from './shared/confirmation/confirmation.component';
+import { ReportFormComponent } from './shared/report-form/report-form.component';
+import {NotFoundComponent} from "./shared/not-found/not-found.component";
 
 
 // AoT requires an exported function for factories
@@ -44,7 +46,7 @@ export const createTranslateLoader = (http: HttpClient) => {
 };
 
 @NgModule({
-    declarations: [AppComponent, ConfirmationComponent],
+    declarations: [AppComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

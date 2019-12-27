@@ -1,9 +1,6 @@
 package com.batuhanozdamar.eproductionTest.dto;
 
-import com.batuhanozdamar.eproductionTest.entity.CompanyProduct;
-import com.batuhanozdamar.eproductionTest.entity.OfferStatus;
-import com.batuhanozdamar.eproductionTest.entity.User;
-import com.batuhanozdamar.eproductionTest.entity.product;
+import com.batuhanozdamar.eproductionTest.entity.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -11,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -22,34 +20,27 @@ public class OfferDto {
     private Long id;
 
     @ApiModelProperty(value = "companyProduct")
-    private CompanyProduct companyProduct;
-
-    @NotNull
-    @ApiModelProperty(required = true, value = "Name Of Product")
-    private product productName;
-
-    @NotNull
-    @ApiModelProperty(required = true, value = "Code Of Product")
-    private product productCode;
-
-    @NotNull
-    @ApiModelProperty(required = true, value = "Category Of Product")
-    private product productCategory;
-
-    @NotNull
-    @ApiModelProperty(required = true, value = "Price Of Product")
-    private product productPrice;
+    private CompanyProductDto companyProductDto;
 
     @ApiModelProperty(required = true,value = "askedPrice")
-    private product askedPrice;
+    private double askedPrice;
+
+    @ApiModelProperty(required = true,value = "askedAmount")
+    private double askedAmount;
 
     @ApiModelProperty(required = true,value = "offerStatus")
     private OfferStatus offerStatus;
 
     @NotNull
-    @ApiModelProperty(required = true,value = "user")
-    private User user;
+    @ApiModelProperty(required = true,value = "Company")
+    private CompanyDto companyDto;
 
-    @ApiModelProperty(required = true,value = "company")
-    private UserDto company;
+    @ApiModelProperty(required = true, value = "soldAt")
+    private Date soldAt;
+
+    @ApiModelProperty(required = true, value = "rejectedAt")
+    private Date rejectedAt;
+
+    @ApiModelProperty(required = true, value = "offeredAt")
+    private Date offeredAt;
 }

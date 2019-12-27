@@ -1,29 +1,65 @@
 <div class="mb-20" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="10px">
 
     <div fxFlex>
-        <app-stat [bgClass]="'danger'" [icon]="'donut_small'" [count]="0" [label]="'Display New Offers'" [routerLink]="['/dashboard/offeredItems']"></app-stat>
+        <app-stat [bgClass]="'danger'" [icon]="'donut_small'" [count]="newOrderCount" [label]="'Display New Offers'" [routerLink]="['/dashboard/offeredItems']"></app-stat>
 
     </div>
 
     <div fxFlex>
-        <app-stat [bgClass]="'warn'" [icon]="'delete_sweep'" [count]="0" [label]="'Display Rejected Offers'" [routerLink]="['/dashboard/rejectedItems']"></app-stat>
+        <app-stat [bgClass]="'warn'" [icon]="'delete_sweep'" [count]="rejectedOffer" [label]="'Display Rejected Offers'" [routerLink]="['/dashboard/rejectedItems']"></app-stat>
     </div>
 
     <div fxFlex>
-        <app-stat [bgClass]="'success'" [icon]="'shop'" [count]="0" [label]="'Purchased Items'" [routerLink]="['/dashboard/purchased-items']"></app-stat>
+        <app-stat [bgClass]="'success'" [icon]="'shop'" [count]="acceptedOffer" [label]="'Purchased Items'" [routerLink]="['/dashboard/purchased-items']"></app-stat>
     </div>
 
     <div fxFlex>
-        <app-stat [bgClass]="'info'" [icon]="'offline_bolt'" [count]="0" [label]="'My Offers'" [routerLink]="['/dashboard/my-offers']"></app-stat>
+        <app-stat [bgClass]="'info'" [icon]="'offline_bolt'" [count]="myOfferCount" [label]="'My Offers'" [routerLink]="['/dashboard/my-offers']"></app-stat>
     </div>
 </div>
 
 <br>
 
-<div class="mb-20" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="10px">
+<div fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="150px">
 
+    <div><h1>Distribution of Purchased Products</h1>
+        <div>
+            <div class="chart" *ngIf="chSoldProductLoadedP">
+                <canvas baseChart height="250px"
+                        [data]="productDistDataP.data"
+                        [labels]="productDistDataP.labels"
+                        [chartType]="pieChartType"
+                        [options]="pieChartOptions"
+                        [colors]="pieChartColors"
+                        [legend]="pieChartLegend">
+                </canvas>
+            </div>
+        </div>
+    </div>
 
-    <div><h1>Category Based Distribution</h1>
+    <div><h1>Distribution of Sold Products</h1>
+        <div>
+            <div class="chart" *ngIf="chSoldProductLoaded">
+                <canvas baseChart height="300px"
+                        [data]="productDistData.data"
+                        [labels]="productDistData.labels"
+                        [chartType]="pieChartType"
+                        [options]="pieChartOptions"
+                        [colors]="pieChartColors"
+                        [legend]="pieChartLegend"
+                >
+                </canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<br>
+
+<!--<div class="mb-20" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="70px">
+
+    <div><h2>Yearly Distribution of Sold Products</h2>
         <div>
             <div style="display: block">
                 <canvas baseChart width="650px"
@@ -37,33 +73,10 @@
         </div>
     </div>
 
-<!--    <span fxFlex fxLayoutGap="10px"></span>-->
-
-    <div><h1>Product Based Distribution</h1>
-        <div>
-            <div class="chart">
-                <canvas baseChart width="770px"
-                        [data]="pieChartData"
-                        [labels]="pieChartLabels"
-                        [chartType]="pieChartType"
-                        [options]="pieChartOptions"
-                        [colors]="pieChartColors"
-                        [legend]="pieChartLegend">
-                </canvas>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<br>
-
-<div class="mb-20" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="10px">
-
-    <div><h1>Yearly Category Based Distribution</h1>
+    <div><h2>Yearly Distribution of Purchased Products</h2>
         <div>
             <div style="display: block">
-                <canvas baseChart width="600px"
+                <canvas baseChart width="650px"
                         [datasets]="barChartData"
                         [labels]="barChartLabels"
                         [options]="barChartOptions"
@@ -74,22 +87,7 @@
         </div>
     </div>
 
-    <div><h1>Yearly Product Based Distribution</h1>
-        <div>
-            <div class="chart">
-                <canvas baseChart width="750px"
-                        [data]="pieChartData"
-                        [labels]="pieChartLabels"
-                        [chartType]="pieChartType"
-                        [options]="pieChartOptions"
-                        [colors]="pieChartColors"
-                        [legend]="pieChartLegend">
-                </canvas>
-            </div>
-        </div>
-    </div>
-
-</div>
+</div>-->
 
 <br><br><br><br><br>
 

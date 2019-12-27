@@ -1,4 +1,4 @@
-<ng2-smart-table [settings]="settings" [source]="data" (editConfirm)="addRecord($event)" (custom)="openNewOfferDialog($event)"></ng2-smart-table>
+<ng2-smart-table [settings]="settings" [source]="data" (custom)="openNewOfferDialog($event)"></ng2-smart-table>
 
 
 <!--Dialog Box Content-->
@@ -6,7 +6,7 @@
 
   <div class="modal-header">
 
-    <h4 class="modal-title" id="modal-basic-title" text-align="center">New Offer</h4>
+    <h4 class="modal-title" id="modal-basic-title" text-align="center">New Offer for <input [(ngModel)]="selectedProductDto.productNames" disabled="disabled" style="border:1px solid white" ></h4>
 
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
@@ -18,23 +18,31 @@
 
     <form>
       <div class="form-group">
-        <label for="">Product Code</label>
-        <input for="" [(ngModel)]="selectedProductDto.productCode" name="productCode"/>
+        <label for="" style="color: blue">Product Code</label>
+        <input for="" [(ngModel)]="selectedProductDto.productCode" name="productCode" disabled="disabled" style="border:1px solid white" />
       </div>
 
       <div class="form-group">
-        <label for="">Product Name</label>
-        <input for="" [(ngModel)]="selectedProductDto.productName" name="productName"/>
+        <label for="" style="color: blue">Category</label>
+        <input for="" [(ngModel)]="selectedProductDto.categoryTitle" name="categoryTitle" disabled="disabled" style="border:1px solid white"/>
+      </div>
+      <div class="form-group">
+        <label for="" style="color: blue">Available Stock</label>
+        <input for="" [(ngModel)]="selectedProductDto.productAmount" name="productAmount" disabled="disabled" style="border:1px solid white"/>
+      </div>
+      <div class="form-group">
+        <label for="" style="color: blue">Product Price</label>
+        <input for="" [(ngModel)]="selectedProductDto.productPrice" name="productPrice" disabled="disabled" style="border:1px solid white" />
       </div>
 
       <div class="form-group">
-        <label for="">Your Price</label>
-        <input name="productPrice"/>
+        <label for="" >Your Price</label><br>
+        <input [(ngModel)]="yourPrice" name ="yourPrice"/>
       </div>
 
       <div class="form-group">
-        <label for="">Your Amount</label>
-        <input name="productAmount"/>
+        <label for="" >Your Amount</label><br>
+        <input matInput [(ngModel)]="yourAmount" name="yourAmount" />
       </div>
 
     </form>
@@ -42,7 +50,8 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Send Offer</button>
+<!--    <button mat-raised-button color="primary" class="w-100" type="submit" (click)="sendOffer()" >Register</button>-->
+    <button type="button" class="btn btn-primary" (click)="sendOffer()">Send Offer</button>
   </div>
 
 </ng-template>

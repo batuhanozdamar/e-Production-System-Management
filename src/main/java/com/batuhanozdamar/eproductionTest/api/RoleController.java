@@ -8,10 +8,7 @@ import com.batuhanozdamar.eproductionTest.util.ApiPaths;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,10 +24,18 @@ public class RoleController {
         this.roleServiceImpl = roleServiceImpl;
     }
 
-    @GetMapping()
+    @GetMapping("/{selectable}")
     @ApiOperation(value = "Get All Operation", response = RoleDto.class , responseContainer = "List")
-    public ResponseEntity<List<RoleDto>> getSelectableRoles() {
-        List<RoleDto> data = roleServiceImpl.findAllBySelectable(true);
-        return ResponseEntity.ok(data);
+    public ResponseEntity<List<RoleDto>> getSelectableRoles(@PathVariable(value = "selectable", required = true) int selectable) {
+        if(selectable == 1)
+        {
+            List<RoleDto> data = roleServiceImpl.findAllBySelectable(false);
+            return ResponseEntity.ok(data);
+        }
+        else
+        {
+            List<RoleDto> data = roleServiceImpl.findAllBySelectable(true);
+            return ResponseEntity.ok(data);
+        }
     }
 }

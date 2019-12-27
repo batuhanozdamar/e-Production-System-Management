@@ -1,0 +1,22 @@
+<!--Purchased Items-->
+
+<h2>Print Out Purchased Items</h2>
+<br>
+
+<div id="1">
+  <ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
+</div>
+<br>
+<!-- Print button -->
+<button type="button" class="btn btn-primary" (click)="print()" >Print Table</button>
+
+
+<h2>Print Out Sold Items</h2>
+<br>
+
+<div id="2">
+  <ng2-smart-table [settings]="settingsP" [source]="dataP"></ng2-smart-table>
+</div>
+<br>
+<!-- Print button -->
+<button type="button" class="btn btn-primary" (click)="printPurchased()" >Print Table</button>

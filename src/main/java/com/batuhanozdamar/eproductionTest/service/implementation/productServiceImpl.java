@@ -1,5 +1,6 @@
 package com.batuhanozdamar.eproductionTest.service.implementation;
 
+import com.batuhanozdamar.eproductionTest.entity.Category;
 import com.batuhanozdamar.eproductionTest.entity.User;
 import com.batuhanozdamar.eproductionTest.entity.product;
 import com.batuhanozdamar.eproductionTest.dto.ProductDto;
@@ -23,11 +24,13 @@ public class productServiceImpl implements productService {
     private final productRepository productRepository;
     private final ModelMapper modelMapper;
     private final userRepository userRepository;
+    private final CategoryServiceImpl categoryService;
 
-    public productServiceImpl(productRepository productRepository, userRepository userRepository, ModelMapper modelMapper) {
+    public productServiceImpl(productRepository productRepository, userRepository userRepository, ModelMapper modelMapper, CategoryServiceImpl categoryService) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
         this.userRepository= userRepository;
+        this.categoryService = categoryService;
     }
 
     @Override
@@ -83,6 +86,10 @@ public class productServiceImpl implements productService {
 
     @Override
     public ProductDto update(Long id, ProductDto product) {
+
+
+
+
         product productDb = productRepository.getOne(id);
         if (productDb == null)
             throw new IllegalArgumentException("Product Does Not Exist ID:" + id);
@@ -95,17 +102,24 @@ public class productServiceImpl implements productService {
         productDb.setProductName(product.getProductName());
         productDb.setProductCategory(product.getProductCategory());
         productDb.setProductPrice(product.getProductPrice());*/
-
+        productDb.setId(id);
         productDb.setProductCode(product.getProductCode());
         productDb.setProductName(product.getProductName());
-        //productDb.setCategory(product.getCategory()); //düzelt
-
+        productDb.setCategory(modelMapper.map(product.getCategory(), Category.class));
+        productDb.setNecessaryAmount(product.getNecessaryAmount());//düzelt
         productRepository.save(productDb);
         return modelMapper.map(productDb, ProductDto.class);
     }
 
+    @Override
+    public List<product> getByCategory(Long id) {
+        Category category = modelMapper.map(categoryService.getById(id), Category.class);
+        List<product> productList = productRepository.findAllByCategory(category);
+        return productList;
+    }
+
     public List<ProductDto> getAll() {
-        List<product> data = productRepository.findAll();
+        List<product> data = productRepository.findAllByOrderByProductName();
         return Arrays.asList(modelMapper.map(data, ProductDto[].class));
     }
 

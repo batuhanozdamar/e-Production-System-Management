@@ -77,6 +77,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
+
+		<dependency>
 			<groupId>com.onpositive.aml</groupId>
 			<artifactId>org.aml.apimodel</artifactId>
 			<version>0.0.12</version>

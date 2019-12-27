@@ -1,0 +1,45 @@
+<!-- Default form contact -->
+<form class="text-center border border-light p-5" [formGroup]="contactForm" (ngSubmit)="onSubmit()" id="1">
+
+  <p class="h4 mb-4">Contact Us!</p>
+
+  <!-- Name -->
+  <input type="text" formControlName="nameSurname" id="defaultContactFormName" mdbInput
+         class="form-control mb-4" placeholder="Name Surname" >
+
+
+  <!-- Email -->
+  <input type="email" formControlName="email" id="defaultContactFormEmail" mdbInput
+         class="form-control mb-4" placeholder="E-mail">
+
+  <!-- Subject -->
+  <label>Subject</label>
+  <select formControlName="subject" class="browser-default custom-select mb-4">
+    <option value="" disabled>Choose Option</option>
+    <option value="Feedback" selected>Feedback</option>
+    <option value="Report a Bug">Report a Bug</option>
+    <option value="Feature Request">Feature Request</option>
+    <option value="Report a Company">Report a Company</option>
+  </select>
+
+  <!-- Message -->
+  <div class="form-group">
+    <textarea formControlName="message" class="form-control rounded-0" mdbInput id="exampleFormControlTextarea2"
+              rows="3" placeholder="Message"></textarea>
+  </div>
+
+
+  <!-- Send button -->
+  <button mdbBtn color="info" outline="true" block="true" class="z-depth-0 my-4 waves-effect"
+          mdbWavesEffect type="submit"class="btn btn-primary" >Send</button>
+
+</form>
+<!-- Default form contact -->
+
+<!--Alert Message
+<div class="alert alert-primary" role="alert" style="text-align: center" aria-hidden="true">
+  Your message is sent! After the evaluation by our team members, we will back to you as soon as possible!
+</div>-->
+
+
+

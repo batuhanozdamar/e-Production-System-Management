@@ -1,0 +1,40 @@
+<h2>Generate Work Order</h2>
+
+
+<div class="row">
+  <div class="col">
+<mat-form-field>
+  <mat-label>Select Category</mat-label>
+  <mat-select [(ngModel)]="selectedCategory">
+    <mat-option *ngFor="let category of categoryList" [value]="category.value">
+      {{category.title}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+      <button mdbBtn color="info" outline="true" block="true" class="z-depth-0 my-4 waves-effect"
+              mdbWavesEffect type="submit"class="btn btn-primary" (click)="showProductLists()" >Show Products</button>
+
+  </div>
+   <div class="col">
+
+      <input placeholder="Total Price" [(ngModel)]="totalPrice" autocomplete="off" [disabled]=true>
+      <input placeholder="Offered Price" [(ngModel)]="offeredPrice" autocomplete="off" required>
+      <button mdbBtn color="info" outline="true" block="true" class="z-depth-0 my-4 waves-effect"
+              mdbWavesEffect type="submit"class="btn btn-primary" (click)="sendOffer()" >Generate Work Order</button>
+    </div>
+
+
+</div>
+
+<div>
+  <ng2-smart-table [settings]="settings" [source]="data" (userRowSelect)="onUserRowSelect($event)"></ng2-smart-table>
+  <br>
+  <br>
+
+</div>
+<br>
+<br><br>
+<br><br>
+<br>
+

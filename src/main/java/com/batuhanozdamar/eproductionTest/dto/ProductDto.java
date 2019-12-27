@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -24,6 +25,10 @@ public class ProductDto {
     @NotNull
     @ApiModelProperty(required = true, value = "Code Of Product")
     private String productCode;
+
+    @NotNull
+    private int necessaryAmount;
+
 
     @NotNull
     @ApiModelProperty(required = true, value = "Category Of Product")

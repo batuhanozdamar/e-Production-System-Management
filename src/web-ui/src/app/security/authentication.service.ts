@@ -31,4 +31,11 @@ export class AuthenticationService {
       console.log("auth login");
     localStorage.removeItem('currentUser');
   }
+
+  reportForm(reportData){
+      return this.http.post<any>( environment.API_BASE_PATH + '/report', reportData)
+          .pipe(map(resp => {
+              return resp;
+          }));
+  }
 }

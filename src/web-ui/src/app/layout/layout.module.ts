@@ -25,6 +25,9 @@ import {ModalModule} from "ngx-bootstrap";
 import {JwtInterceptor} from "../security/jwt.interceptor";
 import {ErrorInterceptor} from "../security/authentication.interceptor";
 import {ChartsModule} from "ng2-charts";
+import {ReportFormComponent} from "../shared/report-form/report-form.component";
+import {NotFoundComponent} from "../shared/not-found/not-found.component";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -42,10 +45,12 @@ import {ChartsModule} from "ng2-charts";
         NgxDatatableModule,
         HttpClientModule,
         ModalModule,
-        ChartsModule
+        ChartsModule,
+        FormsModule,
+        ReactiveFormsModule,
     ],
     declarations: [LayoutComponent, NavComponent,
-      TopnavComponent, SidebarComponent, FooterComponent ],
+      TopnavComponent, SidebarComponent, FooterComponent,ReportFormComponent,NotFoundComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [ApiService,ProductService,UserService
     , {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

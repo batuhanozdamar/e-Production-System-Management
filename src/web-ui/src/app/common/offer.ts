@@ -1,11 +1,11 @@
-import {CompanyProduct} from "./companyProduct";
+import {companyProduct} from "./companyProduct";
 import {user} from "./user";
 import {offerStatus} from "./offerStatus";
 
 export class offer{
 
-    productName: string;
-    companyProduct: CompanyProduct;
+
+    companyProduct: companyProduct;
     user: user;
     askedPrice: number;
     offerStatus: offerStatus;

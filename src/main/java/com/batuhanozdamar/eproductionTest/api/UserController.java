@@ -1,5 +1,6 @@
 package com.batuhanozdamar.eproductionTest.api;
 
+import com.batuhanozdamar.eproductionTest.dto.CompanyDto;
 import com.batuhanozdamar.eproductionTest.dto.UserDto;
 import com.batuhanozdamar.eproductionTest.service.implementation.UserServiceImpl;
 import com.batuhanozdamar.eproductionTest.util.ApiPaths;
@@ -70,5 +71,13 @@ public class UserController {
     {
         userServiceImpl.createWithCompany(user);
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("/addUserCompany/{id}")
+    @ApiOperation(value = "Get By Company Operation", response = UserDto.class)
+    public ResponseEntity<List<UserDto>> getByCompany(@PathVariable(value = "id", required = true) Long id)
+    {
+        List<UserDto> data = userServiceImpl.getByCompany(id);
+        return ResponseEntity.ok(data);
     }
 }

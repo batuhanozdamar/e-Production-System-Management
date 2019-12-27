@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout.component';
+import {ReportFormComponent} from "../shared/report-form/report-form.component";
+import {NotFoundComponent} from "../shared/not-found/not-found.component";
 
 const routes: Routes = [
     {
@@ -34,10 +36,14 @@ const routes: Routes = [
             {
                 path: 'admin',
                 loadChildren: './admin/admin.module#AdminModule'
-            }
-            //{path: '**', component: NotFoundComponent},
+            },
+            {
+                path: 'report',
+                component: ReportFormComponent,
+            },
         ]
-    }
+    },
+    //{path: '**', component: NotFoundComponent}
 ];
 
 @NgModule({

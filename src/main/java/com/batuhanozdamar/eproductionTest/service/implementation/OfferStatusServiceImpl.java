@@ -1,12 +1,7 @@
 package com.batuhanozdamar.eproductionTest.service.implementation;
 
-import com.batuhanozdamar.eproductionTest.dto.CategoryDto;
 import com.batuhanozdamar.eproductionTest.dto.OfferStatusDto;
-import com.batuhanozdamar.eproductionTest.dto.ProductDto;
-import com.batuhanozdamar.eproductionTest.entity.Category;
 import com.batuhanozdamar.eproductionTest.entity.OfferStatus;
-import com.batuhanozdamar.eproductionTest.entity.product;
-import com.batuhanozdamar.eproductionTest.repository.CategoryRepository;
 import com.batuhanozdamar.eproductionTest.repository.OfferStatusRepository;
 import com.batuhanozdamar.eproductionTest.repository.userRepository;
 import com.batuhanozdamar.eproductionTest.service.OfferStatusService;
@@ -41,8 +36,8 @@ public class OfferStatusServiceImpl implements OfferStatusService {
     }
 
     @Override
-    public OfferStatusDto getByStatusId(Long id) {
-        return null;
+    public OfferStatus getByStatusId(Long id) {
+        return offerStatusRepository.findById(id).orElse(null);
     }
 
     @Override

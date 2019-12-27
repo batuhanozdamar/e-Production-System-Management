@@ -46,11 +46,49 @@ public class offerController {
         return ResponseEntity.ok(offer);
     }
 
+    @GetMapping("/offeredItems/{id}")
+    @ApiOperation(value = "Get By Id Operation", response = OfferDto.class)
+    public ResponseEntity<List<OfferDto>> getByCompanyId(@PathVariable(value = "id", required = true) Long id) {
+        String itemType = "recieved";
+        List<OfferDto> offer = offerServiceImpl.getByCompanyId(id, itemType);
+        return ResponseEntity.ok(offer);
+    }
+
+
+    @GetMapping("/getOffers")
+    @ApiOperation(value = "Get By Id Operation", response = OfferDto.class)
+    public ResponseEntity<List<OfferDto>> getOffers(
+            @RequestParam(required = false) Long statusId,
+            @RequestParam(required = false) Long productCompanyId,
+            @RequestParam(required = false) Long offerCompanyId
+         ) {
+        List<OfferDto> offer = offerServiceImpl.getOffers(statusId, productCompanyId, offerCompanyId);
+        return ResponseEntity.ok(offer);
+    }
+
+
+
+
     @PostMapping
     @ApiOperation(value = "Create Operation", response = OfferDto.class)
     public ResponseEntity<OfferDto> createProduct(@Valid @RequestBody OfferDto offer) {
         return ResponseEntity.ok(offerServiceImpl.save(offer));
     }
+
+    @PostMapping("/gwo")
+    @ApiOperation(value = "Create Operation", response = OfferDto.class)
+    public void createOfferList(@Valid @RequestBody OfferDto[] offerList) {
+        for (OfferDto offer: offerList)
+        {
+            ResponseEntity.ok(offerServiceImpl.save(offer));
+        }
+    }
+
+  /*  @PostMapping("/rejectedItems")
+    @ApiOperation(value = "Alter Status", response = OfferDto.class)
+    public ResponseEntity<OfferDto> deleteOffer(@Valid @RequestBody OfferDto offer) {
+        return ResponseEntity.ok(offerServiceImpl.saveD(offer));
+    }*/
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Update Operation", response = OfferDto.class)
@@ -62,5 +100,19 @@ public class offerController {
     @ApiOperation(value = "Delete Operation", response = Boolean.class)
     public ResponseEntity<Boolean> delete(@PathVariable(value = "id", required = true) Long id) {
         return ResponseEntity.ok(offerServiceImpl.delete(id));
+    }
+
+
+    @GetMapping("/rejectOffer/{id}")
+    @ApiOperation(value = "Get By Id Operation")
+    public void rejectOffer(@PathVariable(value = "id", required = true) Long id) {
+        offerServiceImpl.rejectOffer(id);
+    }
+
+
+    @GetMapping("/acceptOffer/{id}")
+    @ApiOperation(value = "Get By Id Operation")
+    public void acceptOffer(@PathVariable(value = "id", required = true) Long id) {
+        offerServiceImpl.accepOffer(id);
     }
 }

@@ -39,9 +39,11 @@ export class AdminComponent implements OnInit {
   }
 
   settings = {
+    actions:{add:false,
+    edit: false,
+      columnTitle: 'Manage'},
     add:{
       confirmCreate:true,
-
     },
     delete :{
       confirmDelete: true

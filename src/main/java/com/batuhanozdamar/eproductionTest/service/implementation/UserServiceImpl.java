@@ -23,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -89,6 +90,20 @@ public class UserServiceImpl implements userService {
     @Override
     public void createWithCompany(UserDto user) {
         register2(user);
+    }
+
+    @Override
+    public List<UserDto> getByCompany(Long id) {
+        Company company = companyService.getById(id);
+
+        List<User> userList = userRepository.findByCompany(company);
+        List<UserDto> resp = new ArrayList<>();
+        userList.forEach(user -> {
+            UserDto userDto = modelMapper.map(user, UserDto.class);
+            resp.add(userDto);
+        });
+
+        return resp;
     }
 
     public Boolean delete(Long id) {

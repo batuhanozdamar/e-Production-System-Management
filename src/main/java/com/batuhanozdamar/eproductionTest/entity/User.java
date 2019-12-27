@@ -20,14 +20,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     @Column(name = "uname", length = 20, unique = true)
     private String username;
 
+    @NotNull
     @Column(name = "pwd", length = 100)
     private String password;
 
+    @NotNull
     @Column(name = "name_surname", length = 50)
     private String nameSurname;
+
 
     @Column(name = "email", length = 50)
     private String email;

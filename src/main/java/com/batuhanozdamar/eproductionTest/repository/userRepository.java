@@ -4,9 +4,11 @@ import com.batuhanozdamar.eproductionTest.entity.Company;
 import com.batuhanozdamar.eproductionTest.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface userRepository extends JpaRepository<User, Long> {
 
     User findByUsername(String username);
 
-    User findByCompany(User user);
+    List<User> findByCompany(Company company);
 }

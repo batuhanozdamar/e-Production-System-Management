@@ -1,11 +1,7 @@
 package com.batuhanozdamar.eproductionTest.service.implementation;
 
 import com.batuhanozdamar.eproductionTest.dto.CompanyDto;
-import com.batuhanozdamar.eproductionTest.dto.ProductDto;
-import com.batuhanozdamar.eproductionTest.entity.Category;
 import com.batuhanozdamar.eproductionTest.entity.Company;
-import com.batuhanozdamar.eproductionTest.entity.product;
-import com.batuhanozdamar.eproductionTest.repository.CategoryRepository;
 import com.batuhanozdamar.eproductionTest.repository.CompanyRepository;
 import com.batuhanozdamar.eproductionTest.repository.userRepository;
 import com.batuhanozdamar.eproductionTest.service.CompanyService;
@@ -16,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
@@ -42,8 +40,8 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public CompanyDto getById(Long id) {
-        return null;
+    public Company getById(Long id) {
+        return companyRepository.findById(id).orElse(null);
     }
 
     @Override

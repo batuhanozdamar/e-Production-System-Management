@@ -20,12 +20,15 @@ public class CompanyProduct {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "product_code", unique = true)
+    private String productCode;
+
     @JoinColumn(name = "company_id")
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     private Company company;
 
     @JoinColumn(name = "product_id")
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private product product;
 
     @Column(name = "product_price", length = 4)
@@ -35,7 +38,7 @@ public class CompanyProduct {
     private double productAmount;
 
     @Column(name = "product_color", length = 10)
-    private double productColor;
+    private String productColor;
 
     @Column(name = "stockOnHand", length = 4)
     private double stockOnHand;

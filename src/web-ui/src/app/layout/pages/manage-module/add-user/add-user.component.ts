@@ -3,6 +3,7 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ApiService} from "../../../../shared/services/api.service";
 import {offer} from "../../../../common/offer";
 import {role} from "../../../../common/role";
+import {user} from "../../../../common/user";
 
 @Component({
   selector: 'app-add-user',
@@ -19,7 +20,19 @@ export class AddUserComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.http.get<ApiService>('http://localhost:8000/api/role').subscribe(
+      var currentUserStr = localStorage.getItem("currentUser");
+      if (currentUserStr != null && currentUserStr != "") {
+          var currentUser= JSON.parse(currentUserStr);
+      }
+
+
+      var selectable = 0;
+
+      if(currentUser.role.id === 2) {
+          selectable = 1;
+      }
+
+    this.http.get<ApiService>('http://localhost:8000/api/role/' + selectable).subscribe(
         data => {
 
 
@@ -46,7 +59,13 @@ export class AddUserComponent implements OnInit {
   }
 
   refreshPage(){
-        this.http.get<ApiService>('http://localhost:8000/api/users').subscribe(
+
+      var currentUserStr = localStorage.getItem("currentUser");
+      if (currentUserStr != null && currentUserStr != "") {
+          var currentUser= JSON.parse(currentUserStr);
+      }
+      debugger;
+      this.http.get<ApiService>('http://localhost:8000/api/users/addUserCompany/' + currentUser.company.id).subscribe(
             data => {
 
                 // @ts-ignore
@@ -165,14 +184,16 @@ export class AddUserComponent implements OnInit {
 
 
   deleteRecord(event){
-    console.log(event.data);
 
-    this.http.delete<offer>('http://localhost:8000/api/users/'+ event.data.id).subscribe(
+      console.log(event.data);
+
+    this.http.delete<user>('http://localhost:8000/api/users/'+ event.data.id).subscribe(
         res => {
             this.refreshPage();
           console.log(res);
           event.confirm.resolve(event.source.data);
         },
+
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
             console.log("Client-side error occured.");

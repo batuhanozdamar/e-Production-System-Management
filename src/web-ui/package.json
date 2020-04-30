@@ -39,7 +39,7 @@
         "connect": "^3.7.0",
         "core-js": "2.5.7",
         "hammerjs": "2.0.8",
-        "jquery": "^3.4.1",
+        "jquery": "^3.5.0",
         "jwt-hs256": "^0.1.0",
         "mdbootstrap": "^4.10.1",
         "ng2-charts": "^1.6.0",

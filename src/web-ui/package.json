@@ -34,7 +34,7 @@
         "bcryptjs": "^2.4.3",
         "bootstrap": "^4.4.1",
         "canvasjs": "github:vasilrimar/canvasjs",
-        "chart.js": "^2.7.3",
+        "chart.js": "^2.9.4",
         "chartjs-plugin-datalabels": "^0.7.0",
         "connect": "^3.7.0",
         "core-js": "2.5.7",
